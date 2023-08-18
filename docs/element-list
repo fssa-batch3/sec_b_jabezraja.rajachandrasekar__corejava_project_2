@@ -1,0 +1,8 @@
+in.fssa.jauntyrialto.dao
+in.fssa.jauntyrialto.entity
+in.fssa.jauntyrialto.exception
+in.fssa.jauntyrialto.interfaces
+in.fssa.jauntyrialto.model
+in.fssa.jauntyrialto.service
+in.fssa.jauntyrialto.util
+in.fssa.jauntyrialto.validator
