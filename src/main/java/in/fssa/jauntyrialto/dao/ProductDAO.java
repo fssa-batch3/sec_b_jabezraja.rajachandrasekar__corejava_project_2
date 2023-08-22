@@ -15,6 +15,7 @@ import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.interfaces.ProductInterfaces;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
 
+//class ProductDAOImpl implements ProductDAO<Product>
 public class ProductDAO implements ProductInterfaces<ProductEntity> {
 	/**
 	 * @return
@@ -126,7 +127,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				String query = "SELECT * FROM product WHERE is_active=1 && sub_category_id = ?";
 				con = ConnectionUtil.getConnection();
 				ps = con.prepareStatement(query);
-				ps.setInt(1, id);
+				ps.setInt(1, scid.getId());
 				rs = ps.executeQuery();
 
 				while (rs.next()) {

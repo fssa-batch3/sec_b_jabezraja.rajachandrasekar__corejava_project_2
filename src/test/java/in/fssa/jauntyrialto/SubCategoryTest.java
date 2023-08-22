@@ -116,7 +116,7 @@ public class SubCategoryTest {
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
-		newSubCategory.setName("Monitors");
+		newSubCategory.setName("MicroOvan");
 		newSubCategory.setCategory_id(1);
 		newSubCategory.setIs_active(true);
 
