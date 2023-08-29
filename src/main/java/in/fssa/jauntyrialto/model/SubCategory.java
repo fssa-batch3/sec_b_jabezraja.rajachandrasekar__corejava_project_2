@@ -1,6 +1,12 @@
 package in.fssa.jauntyrialto.model;
 
 public abstract class SubCategory implements Comparable<SubCategory> {
+
+	private int id;
+	private int categoryId;
+	private String name;
+	private boolean isActive;
+
 	public int getId() {
 		return id;
 	}
@@ -9,12 +15,12 @@ public abstract class SubCategory implements Comparable<SubCategory> {
 		this.id = id;
 	}
 
-	public int getCategory_id() {
-		return category_id;
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getName() {
@@ -25,17 +31,17 @@ public abstract class SubCategory implements Comparable<SubCategory> {
 		this.name = name;
 	}
 
-	public boolean isIs_active() {
-		return is_active;
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public void setIs_active(boolean is_active) {
-		this.is_active = is_active;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override
 	public String toString() {
-		return "SubCategory [id=" + id + ", category_id=" + category_id + ", name=" + name + ", is_active=" + is_active
+		return "SubCategory [id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", isActive=" + isActive
 				+ "]";
 	}
 
@@ -53,8 +59,4 @@ public abstract class SubCategory implements Comparable<SubCategory> {
 		}
 	}
 
-	private int id;
-	private int category_id;
-	private String name;
-	private boolean is_active;
 }

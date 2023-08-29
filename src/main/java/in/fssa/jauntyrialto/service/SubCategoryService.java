@@ -2,7 +2,7 @@ package in.fssa.jauntyrialto.service;
 
 import in.fssa.jauntyrialto.dao.SubCategoryDAO;
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.validator.SubCategoryValidator;
 
 public class SubCategoryService {
@@ -16,8 +16,8 @@ public class SubCategoryService {
 
 		SubCategoryValidator.validate(newSubCategory);
 
-		SubCategoryDAO subcategorydao = new SubCategoryDAO();
-		subcategorydao.create(newSubCategory);
+		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
+		subcategoryDAO.create(newSubCategory);
 
 	}
 
@@ -31,13 +31,13 @@ public class SubCategoryService {
 	public void update(int id, SubCategoryEntity updatedSubCategory) throws Exception {
 
 		if (id <= 0) {
-			throw new ValidationException("Invalid id");
+			throw new ServiceException("Invalid id");
 		}
 
 		SubCategoryValidator.validate(updatedSubCategory);
 
-		SubCategoryDAO subcategorydao = new SubCategoryDAO();
-		subcategorydao.update(id, updatedSubCategory);
+		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
+		subcategoryDAO.update(id, updatedSubCategory);
 
 	}
 
@@ -49,12 +49,12 @@ public class SubCategoryService {
 
 	public void delete(int id) throws Exception {
 
-		if (id == 0) {
-			throw new ValidationException("Invalid id");
+		if (id <= 0) {
+			throw new ServiceException("Invalid id");
 		}
 
-		SubCategoryDAO subcategorydao = new SubCategoryDAO();
-		subcategorydao.delete(id);
+		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
+		subcategoryDAO.delete(id);
 
 	}
 

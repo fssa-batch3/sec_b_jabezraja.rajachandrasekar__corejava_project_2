@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import in.fssa.jauntyrialto.dao.CategoryDAO;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.util.StringUtil;
 
@@ -26,8 +27,13 @@ public class CategoryValidator {
 		if (!Pattern.matches(NAME_PATTERN, category.getName())) {
 			throw new ValidationException("Category name doesn't match the pattern");
 		}
-		CategoryDAO categorydao = new CategoryDAO();
-		categorydao.checkCategoryExists(category.getName());
+
+		CategoryDAO categoryDAO = new CategoryDAO();
+		try {
+			categoryDAO.checkCategoryExists(category.getName());
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+		}
 
 	}
 }

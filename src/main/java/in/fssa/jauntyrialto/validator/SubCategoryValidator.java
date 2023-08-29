@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import in.fssa.jauntyrialto.dao.SubCategoryDAO;
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.util.StringUtil;
 
@@ -21,15 +22,20 @@ public class SubCategoryValidator {
 			throw new ValidationException("Invalid SubCategory input");
 		}
 
-		validateCategoryId(subcategory.getCategory_id());
+		validateCategoryId(subcategory.getCategoryId());
 
 		StringUtil.rejectIfInvalidString(subcategory.getName(), "SubCategory name");
 
 		if (!Pattern.matches(NAME_PATTERN, subcategory.getName())) {
 			throw new ValidationException("SubCategory name doesn't match the pattern");
 		}
-		SubCategoryDAO subcategorydao = new SubCategoryDAO();
-		subcategorydao.checkSubCategoryExists(subcategory.getName());
+
+		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
+		try {
+			subcategoryDAO.checkSubCategoryExists(subcategory.getName());
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -45,8 +51,12 @@ public class SubCategoryValidator {
 			throw new ValidationException("Invalid Category id");
 		}
 
-		SubCategoryDAO subcategorydao = new SubCategoryDAO();
-		subcategorydao.checkCategoryExists(id);
+		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
+		try {
+			subcategoryDAO.checkCategoryExists(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+		}
 
 	}
 }

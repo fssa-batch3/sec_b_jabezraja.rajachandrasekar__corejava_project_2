@@ -2,7 +2,7 @@ package in.fssa.jauntyrialto.service;
 
 import in.fssa.jauntyrialto.dao.CategoryDAO;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.validator.CategoryValidator;
 
 public class CategoryService {
@@ -18,12 +18,12 @@ public class CategoryService {
 //			CategoryValidator.validate(newCategory);
 //			CategoryDAO categorydao = new CategoryDAO();
 //			categorydao.create(newCategory);
-//		} catch (Persistance e) {
+//		} catch (ServiceException e) {
 //			throw new ServiceException(e.getMessage());
 //		}
 		CategoryValidator.validate(newCategory);
-		CategoryDAO categorydao = new CategoryDAO();
-		categorydao.create(newCategory);
+		CategoryDAO categoryDAO = new CategoryDAO();
+		categoryDAO.create(newCategory);
 	}
 
 	/**
@@ -33,16 +33,17 @@ public class CategoryService {
 	 * @throws Exception
 	 */
 
+	////// ServiceException, ValidationException, PersistenceException ///////
 	public void update(int id, CategoryEntity updatedCategory) throws Exception {
 
-		if (id == 0) {
-			throw new ValidationException("Invalid id");
+		if (id <= 0) {
+			throw new ServiceException("Invalid id");
 		}
 
 		CategoryValidator.validate(updatedCategory);
 
-		CategoryDAO categorydao = new CategoryDAO();
-		categorydao.update(id, updatedCategory);
+		CategoryDAO categoryDAO = new CategoryDAO();
+		categoryDAO.update(id, updatedCategory);
 
 	}
 
@@ -54,12 +55,12 @@ public class CategoryService {
 
 	public void delete(int id) throws Exception {
 
-		if (id == 0) {
-			throw new ValidationException("Invalid id");
+		if (id <= 0) {
+			throw new ServiceException("Invalid id");
 		}
 
-		CategoryDAO categorydao = new CategoryDAO();
-		categorydao.delete(id);
+		CategoryDAO categoryDAO = new CategoryDAO();
+		categoryDAO.delete(id);
 
 	}
 }

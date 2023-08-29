@@ -10,17 +10,17 @@ import in.fssa.jauntyrialto.entity.CategoryEntity;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.CategoryService;
 
-public class CategoryTest {
-	/// TEST FOR VALID INPUT TO CREATE CATEGORY
+class CategoryTest {
+	// TEST FOR VALID INPUT
 
 	@Test
-	public void testCreateCategoryWithValidInput() {
+	void testCategoryWithValidInput() {
 
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity newCategory = new CategoryEntity();
 		newCategory.setName("Accessories");
-		newCategory.setIs_active(true);
+		newCategory.setIsActive(true);
 
 		assertDoesNotThrow(() -> {
 			categoryService.create(newCategory);
@@ -28,10 +28,10 @@ public class CategoryTest {
 
 	}
 
-	//// TEST FOR INVALID INPUT
+	// TEST FOR INVALID INPUT
 
 	@Test
-	public void testCreateCategoryWithInvalidInput() {
+	void testCategoryWithInvalidInput() {
 
 		CategoryService categoryService = new CategoryService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -43,16 +43,16 @@ public class CategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR CATEGORY WITH NULL
+	// TEST FOR CATEGORYNAME WITH NULL
 
 	@Test
-	public void testCreateCategoryWithCategoryNameNull() {
+	void testCategoryNameWithNull() {
 
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity newCategory = new CategoryEntity();
 		newCategory.setName(null);
-		newCategory.setIs_active(true);
+		newCategory.setIsActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			categoryService.create(newCategory);
@@ -63,16 +63,16 @@ public class CategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR CATEGORY WITH EMPTY STRING
+	// TEST FOR CATEGORYNAME WITH EMPTY STRING
 
 	@Test
-	public void testCreateCategoryWithCategoryNameEmpty() {
+	void testCategoryNameWithEmpty() {
 
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity newCategory = new CategoryEntity();
 		newCategory.setName("");
-		newCategory.setIs_active(true);
+		newCategory.setIsActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			categoryService.create(newCategory);
@@ -83,16 +83,16 @@ public class CategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR CATEGORY NAME WITH PATTERN
+	// TEST FOR CATEGORY NAME WITH PATTERN
 
 	@Test
-	public void testCreateCategoryWithPattern() {
+	void testCategoryNameWithPattern() {
 
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity newCategory = new CategoryEntity();
 		newCategory.setName("12345");
-		newCategory.setIs_active(true);
+		newCategory.setIsActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			categoryService.create(newCategory);
@@ -103,16 +103,16 @@ public class CategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR CATEGORY NAME ALREADY EXISTS
+	// TEST FOR CATEGORY ALREADY EXISTS
 
 	@Test
-	public void testCreateCategoryWithCategoryNameAlredyExists() {
+	void testCategoryAlredyExists() {
 
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity newCategory = new CategoryEntity();
 		newCategory.setName("Electronics");
-		newCategory.setIs_active(true);
+		newCategory.setIsActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			categoryService.create(newCategory);
@@ -123,15 +123,15 @@ public class CategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR UPDATE CATEGORY
+	// TEST FOR UPDATE CATEGORY
 
 	@Test
-	public void testUpdateCategory() {
+	void testUpdateCategory() {
 		CategoryService categoryService = new CategoryService();
 
 		CategoryEntity updatedCategory = new CategoryEntity();
 		updatedCategory.setName("Electricals");
-		updatedCategory.setIs_active(true);
+		updatedCategory.setIsActive(true);
 
 		assertDoesNotThrow(() -> {
 			categoryService.update(3, updatedCategory);
@@ -139,10 +139,10 @@ public class CategoryTest {
 
 	}
 
-	//// TEST FOR DELETE CATEGORY
+	// TEST FOR DELETE CATEGORY
 
 	@Test
-	public void deleteCategory() throws Exception {
+	void deleteCategory() throws Exception {
 
 		CategoryService categoryService = new CategoryService();
 		categoryService.delete(4);

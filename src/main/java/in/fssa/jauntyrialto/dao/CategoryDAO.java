@@ -5,20 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
 
 public class CategoryDAO {
 	/**
 	 * 
 	 * @param newCategory
+	 * @throws PersistenceException
 	 */
-	public void create(CategoryEntity newCategory) {
+	public void create(CategoryEntity newCategory) throws PersistenceException {
 		Connection connection = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO category (name) VALUES (?)";
+			String query = "INSERT INTO categories (name) VALUES (?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 
@@ -31,12 +32,7 @@ public class CategoryDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 35", e);
 
 		} finally {
 			ConnectionUtil.close(connection, ps);
@@ -48,15 +44,16 @@ public class CategoryDAO {
 	 * 
 	 * @param id
 	 * @param updatedCategory
+	 * @throws PersistenceException
 	 */
 
-	public void update(int id, CategoryEntity updatedCategory) {
+	public void update(int id, CategoryEntity updatedCategory) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		try {
 
-			String query = "UPDATE category SET name=? WHERE is_active=1 AND id=?";
+			String query = "UPDATE categories SET name=? WHERE is_active=1 AND id=?";
 
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
@@ -72,12 +69,7 @@ public class CategoryDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 72", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -88,14 +80,15 @@ public class CategoryDAO {
 	/**
 	 * 
 	 * @param id
+	 * @throws PersistenceException
 	 */
 
-	public void delete(int id) {
+	public void delete(int id) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "UPDATE category SET is_active = 0 WHERE is_active = 1 AND id = ?";
+			String query = "UPDATE categories SET is_active = 0 WHERE is_active = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -106,16 +99,9 @@ public class CategoryDAO {
 			System.out.println("Category has been deleted successfully");
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 104", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -126,10 +112,10 @@ public class CategoryDAO {
 	/**
 	 * 
 	 * @param name
-	 * @throws ValidationException
+	 * @throws PersistenceException
 	 */
 
-	public void checkCategoryExists(String name) throws ValidationException {
+	public void checkCategoryExists(String name) throws PersistenceException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -137,7 +123,7 @@ public class CategoryDAO {
 
 		try {
 
-			String query = "SELECT * FROM category WHERE is_active=1 AND name = ?";
+			String query = "SELECT * FROM categories WHERE is_active=1 AND name = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -147,21 +133,14 @@ public class CategoryDAO {
 
 			if (rs.next()) {
 
-				throw new ValidationException("This category name is already exists");
+				throw new PersistenceException("This category name is already exists");
 
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 143", e);
 
 		} finally {
 

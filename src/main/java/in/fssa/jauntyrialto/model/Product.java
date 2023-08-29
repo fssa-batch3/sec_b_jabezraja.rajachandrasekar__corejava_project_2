@@ -2,6 +2,13 @@ package in.fssa.jauntyrialto.model;
 
 public abstract class Product implements Comparable<Product> {
 
+	private int id;
+	private String name;
+	private String description;
+	private int subCategoryId;
+	private boolean isActive;
+	private double price;
+
 	public int getId() {
 		return id;
 	}
@@ -26,20 +33,20 @@ public abstract class Product implements Comparable<Product> {
 		this.description = description;
 	}
 
-	public int getSub_category_id() {
-		return sub_category_id;
+	public int getSubCategoryId() {
+		return subCategoryId;
 	}
 
-	public void setSub_category_id(int sub_category_id) {
-		this.sub_category_id = sub_category_id;
+	public void setSubCategoryId(int subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
-	public boolean isIs_active() {
-		return is_active;
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public void setIs_active(boolean is_active) {
-		this.is_active = is_active;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public double getPrice() {
@@ -52,8 +59,8 @@ public abstract class Product implements Comparable<Product> {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", sub_category_id="
-				+ sub_category_id + ", is_active=" + is_active + ", price=" + price + "]";
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", subCategoryId="
+				+ subCategoryId + ", isActive=" + isActive + ", price=" + price + "]";
 	}
 
 	@Override
@@ -69,12 +76,5 @@ public abstract class Product implements Comparable<Product> {
 			}
 		}
 	}
-
-	private int id;
-	private String name;
-	private String description;
-	private int sub_category_id;
-	private boolean is_active;
-	private double price;
 
 }

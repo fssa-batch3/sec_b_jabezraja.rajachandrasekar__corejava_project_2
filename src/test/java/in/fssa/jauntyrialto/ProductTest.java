@@ -10,21 +10,21 @@ import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.ProductService;
 
-public class ProductTest {
+class ProductTest {
 
-	/// TEST FOR VALID INPUT TO CREATE PRODUCT
+	// TEST FOR VALID INPUT TO CREATE PRODUCT
 
 	@Test
-	public void testCreateProductWithValidInput() {
+	void testProductWithValidInput() {
 
 		ProductService productService = new ProductService();
 
 		ProductEntity newProduct = new ProductEntity();
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		assertDoesNotThrow(() -> {
 			productService.create(newProduct);
@@ -32,10 +32,10 @@ public class ProductTest {
 
 	}
 
-	//// TEST FOR INVALID INPUT
+	// TEST FOR INVALID INPUT
 
 	@Test
-	public void testCreateProductWithInvalidInput() {
+	void testProductWithInvalidInput() {
 
 		ProductService productService = new ProductService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -47,19 +47,19 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR PRODUCT WITH NULL
+	// TEST FOR PRODUCTNAME WITH NULL
 
 	@Test
-	public void testCreateProductWithProductNameNull() {
+	void testProductNameWithNull() {
 
 		ProductService productService = new ProductService();
 
 		ProductEntity newProduct = new ProductEntity();
 		newProduct.setName(null);
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -70,19 +70,19 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-////TEST FOR PRODUCT WITH EMPTY STRING
+	// TEST FOR PRODUCT WITH EMPTY STRING
 
 	@Test
-	public void testCreateProductWithProductNameEmpty() {
+	void testProductNameWithEmpty() {
 
 		ProductService productService = new ProductService();
 
 		ProductEntity newProduct = new ProductEntity();
 		newProduct.setName("");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -93,19 +93,18 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR PRODUCT NAME WITH PATTERN
-
+	// TEST FOR PRODUCT NAME WITH PATTERN
 	@Test
-	public void testCreateProductWithPattern() {
+	void testProductNameWithPattern() {
 
 		ProductService productService = new ProductService();
 
 		ProductEntity newProduct = new ProductEntity();
 		newProduct.setName("$Hello123");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -116,16 +115,17 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
+	// TEST FOR PRODUCT DESCRIPTION WITH NULL
 	@Test
-	public void testCreateProductWithDescriptionNull() {
+	void testProductDescriptionWithNull() {
 		ProductService productService = new ProductService();
 		ProductEntity newProduct = new ProductEntity();
 
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription(null);
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -136,16 +136,17 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
+	// TEST FOR PRODUCT DESCRIPTION WITH EMPTY
 	@Test
-	public void testCreateProductWithDescriptionEmpty() {
+	void testProductDescriptionWithEmpty() {
 		ProductService productService = new ProductService();
 		ProductEntity newProduct = new ProductEntity();
 
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -157,18 +158,17 @@ public class ProductTest {
 	}
 
 	// TEST FOR SUBCATEGORY ID WITH 0
-
 	@Test
-	public void testCreateProductWithSubCategoryIdZero() {
+	void testSubCategoryIdIsZero() {
 
 		ProductService productService = new ProductService();
 		ProductEntity newProduct = new ProductEntity();
 
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(0);
+		newProduct.setSubCategoryId(0);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -179,19 +179,19 @@ public class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR SUBCATEGORY DOESNOT EXISTS
+	// TEST FOR SUBCATEGORY EXISTS
 
 	@Test
-	public void testCreateTypeWithSubCategoryDoesnotExists() {
+	void testSubCategoryExists() {
 
 		ProductService productService = new ProductService();
 		ProductEntity newProduct = new ProductEntity();
 
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(100);
+		newProduct.setSubCategoryId(100);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);
@@ -205,16 +205,16 @@ public class ProductTest {
 	// TEST FOR PRICE ID WITH 0
 
 	@Test
-	public void testCreateProductWithPriceZero() {
+	void testProductPriceIsZero() {
 
 		ProductService productService = new ProductService();
 		ProductEntity newProduct = new ProductEntity();
 
 		newProduct.setName("POCO M16");
-		newProduct.setSub_category_id(1);
+		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(0);
-		newProduct.setIs_active(true);
+		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			productService.create(newProduct);

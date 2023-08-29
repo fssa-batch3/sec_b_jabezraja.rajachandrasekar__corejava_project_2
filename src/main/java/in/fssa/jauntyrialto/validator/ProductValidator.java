@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import in.fssa.jauntyrialto.dao.ProductDAO;
 import in.fssa.jauntyrialto.entity.ProductEntity;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.util.StringUtil;
 
@@ -24,7 +25,7 @@ public class ProductValidator {
 
 		validateName(product.getName());
 		validateDescription(product.getDescription());
-		validateSubCategoryId(product.getSub_category_id());
+		validateSubCategoryId(product.getSubCategoryId());
 		validatePrice(product.getPrice());
 	}
 
@@ -69,8 +70,13 @@ public class ProductValidator {
 
 			throw new ValidationException("Invalid SubCategory_Id");
 		}
+
 		ProductDAO productDao = new ProductDAO();
-		productDao.checkSubCategoryExists(id);
+		try {
+			productDao.checkSubCategoryExists(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+		}
 
 	}
 

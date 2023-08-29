@@ -10,19 +10,19 @@ import in.fssa.jauntyrialto.entity.SubCategoryEntity;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.SubCategoryService;
 
-public class SubCategoryTest {
+class SubCategoryTest {
 
-	/// TEST FOR VALID INPUT TO CREATE SUBCATEGORY
+	// TEST FOR VALID INPUT TO CREATE SUBCATEGORY
 
 	@Test
-	public void testCreateSubCategoryWithValidInput() {
+	void testSubCategoryWithValidInput() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 		newSubCategory.setName("WashingMachine");
-		newSubCategory.setCategory_id(1);
-		newSubCategory.setIs_active(true);
+		newSubCategory.setCategoryId(1);
+		newSubCategory.setActive(true);
 
 		assertDoesNotThrow(() -> {
 			subCategoryService.create(newSubCategory);
@@ -30,10 +30,10 @@ public class SubCategoryTest {
 
 	}
 
-	//// TEST FOR INVALID INPUT
+	// TEST FOR INVALID INPUT
 
 	@Test
-	public void testCreateSubCategoryWithInvalidInput() {
+	void testSubCategoryWithInvalidInput() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -45,17 +45,17 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR SUBCATEGORY WITH NULL
+	// TEST FOR SUBCATEGORYNAME WITH NULL
 
 	@Test
-	public void testCreateSubCategoryWithSubCategoryNameNull() {
+	void testSubCategoryNameWithNull() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 		newSubCategory.setName(null);
-		newSubCategory.setCategory_id(1);
-		newSubCategory.setIs_active(true);
+		newSubCategory.setCategoryId(1);
+		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);
@@ -66,17 +66,17 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR SUBCATEGORY WITH EMPTY STRING
+	// TEST FOR SUBCATEGORYNAME WITH EMPTY STRING
 
 	@Test
-	public void testCreateSubCategoryWithSubCategoryNameEmpty() {
+	void testSubCategoryNameWithEmpty() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 		newSubCategory.setName("");
-		newSubCategory.setCategory_id(1);
-		newSubCategory.setIs_active(true);
+		newSubCategory.setCategoryId(1);
+		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);
@@ -87,17 +87,17 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR SUBCATEGORY NAME WITH PATTERN
+	// TEST FOR SUBCATEGORY NAME WITH PATTERN (MATCH)
 
 	@Test
-	public void testCreateSubCategoryWithPattern() {
+	void testSubCategoryNameWithPattern() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 		newSubCategory.setName("12345");
-		newSubCategory.setCategory_id(1);
-		newSubCategory.setIs_active(true);
+		newSubCategory.setCategoryId(1);
+		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);
@@ -108,17 +108,17 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR SUBCATEGORY NAME ALREADY EXISTS
+	// TEST FOR SUBCATEGORY NAME ALREADY EXISTS
 
 	@Test
-	public void testCreateSubCategoryWithSubCategoryNameAlredyExists() {
+	void testSubCategoryIsAlredyExists() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 		newSubCategory.setName("MicroOvan");
-		newSubCategory.setCategory_id(1);
-		newSubCategory.setIs_active(true);
+		newSubCategory.setCategoryId(1);
+		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);
@@ -129,16 +129,16 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR UPDATE SUBCATEGORY
+	// TEST FOR UPDATE SUBCATEGORY
 
 	@Test
-	public void testUpdateSubCategory() {
+	void testUpdateSubCategory() {
 		SubCategoryService subCategoryService = new SubCategoryService();
 
 		SubCategoryEntity updatedSubCategory = new SubCategoryEntity();
 		updatedSubCategory.setName("MicroOvan");
-		updatedSubCategory.setCategory_id(1);
-		updatedSubCategory.setIs_active(true);
+		updatedSubCategory.setCategoryId(1);
+		updatedSubCategory.setActive(true);
 
 		assertDoesNotThrow(() -> {
 			subCategoryService.update(1, updatedSubCategory);
@@ -146,10 +146,10 @@ public class SubCategoryTest {
 
 	}
 
-	//// TEST FOR DELETE SUBCATEGORY
+	// TEST FOR DELETE SUBCATEGORY
 
 	@Test
-	public void deleteSubCategory() throws Exception {
+	void testDeleteSubCategory() throws Exception {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 
@@ -160,12 +160,12 @@ public class SubCategoryTest {
 	// TEST FOR CATEGORY ID WITH 0
 
 	@Test
-	public void testCreateProductWithCategoryIdZero() {
+	void testCategoryIdWithZero() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 
-		newSubCategory.setCategory_id(0);
+		newSubCategory.setCategoryId(0);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);
@@ -176,17 +176,17 @@ public class SubCategoryTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-	//// TEST FOR CATEGORY DOESNOT EXISTS
+	//// TEST FOR CATEGORY EXISTS
 
 	@Test
-	public void testCreateTypeWithCategoryDoesnotExists() {
+	void testCategoryExists() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 
-		newSubCategory.setCategory_id(100);
+		newSubCategory.setCategoryId(100);
 		newSubCategory.setName("Micro Ovan");
-		newSubCategory.setIs_active(true);
+		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			subCategoryService.create(newSubCategory);

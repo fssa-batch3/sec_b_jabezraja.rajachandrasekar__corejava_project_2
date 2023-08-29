@@ -4,7 +4,8 @@ import java.util.Set;
 
 import in.fssa.jauntyrialto.dao.ProductDAO;
 import in.fssa.jauntyrialto.entity.ProductEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.PersistenceException;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.validator.ProductValidator;
 
 public class ProductService {
@@ -18,8 +19,8 @@ public class ProductService {
 
 		ProductValidator.validate(newProduct);
 
-		ProductDAO productDao = new ProductDAO();
-		productDao.create(newProduct);
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.create(newProduct);
 
 	}
 
@@ -33,13 +34,13 @@ public class ProductService {
 	public void update(int id, ProductEntity updatedProduct) throws Exception {
 
 		if (id == 0) {
-			throw new ValidationException("Invalid id");
+			throw new ServiceException("Invalid id");
 		}
 
 		ProductValidator.validate(updatedProduct);
 
-		ProductDAO productDao = new ProductDAO();
-		productDao.update(id, updatedProduct);
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.update(id, updatedProduct);
 
 	}
 
@@ -52,24 +53,25 @@ public class ProductService {
 	public void delete(int id) throws Exception {
 
 		if (id == 0) {
-			throw new ValidationException("Invalid id");
+			throw new ServiceException("Invalid id");
 		}
 
-		ProductDAO productDao = new ProductDAO();
-		productDao.delete(id);
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.delete(id);
 
 	}
 
 	/**
 	 * 
 	 * @return
+	 * @throws PersistenceException
 	 */
 
-	public Set<ProductEntity> findAllProducts() {
+	public Set<ProductEntity> findAllProducts() throws PersistenceException {
 
-		ProductDAO productDao = new ProductDAO();
+		ProductDAO productDAO = new ProductDAO();
 
-		Set<ProductEntity> ProductList = productDao.findAllProducts();
+		Set<ProductEntity> ProductList = productDAO.findAllProducts();
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);
@@ -83,13 +85,14 @@ public class ProductService {
 	 * 
 	 * @param id
 	 * @return
+	 * @throws PersistenceException
 	 */
 
-	public Set<ProductEntity> findByCategoryId(int id) {
+	public Set<ProductEntity> findProuctsByCategoryId(int id) throws PersistenceException {
 
-		ProductDAO productDao = new ProductDAO();
+		ProductDAO productDAO = new ProductDAO();
 
-		Set<ProductEntity> ProductList = productDao.findByCategoryId(id);
+		Set<ProductEntity> ProductList = productDAO.findByCategoryId(id);
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);
@@ -103,12 +106,13 @@ public class ProductService {
 	 * 
 	 * @param id
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public Set<ProductEntity> findBySubCategoryId(int id) {
+	public Set<ProductEntity> findProductsBySubCategoryId(int id) throws PersistenceException {
 
-		ProductDAO productDao = new ProductDAO();
+		ProductDAO productDAO = new ProductDAO();
 
-		Set<ProductEntity> ProductList = productDao.findBySubCategoryId(id);
+		Set<ProductEntity> ProductList = productDAO.findBySubCategoryId(id);
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);

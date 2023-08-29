@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
 
 public class SubCategoryDAO {
@@ -14,19 +14,20 @@ public class SubCategoryDAO {
 	/**
 	 * 
 	 * @param newSubCategory
+	 * @throws PersistenceException
 	 */
 
-	public void create(SubCategoryEntity newSubCategory) {
+	public void create(SubCategoryEntity newSubCategory) throws PersistenceException {
 		Connection connection = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO sub_category (name, category_id) VALUES (?,?)";
+			String query = "INSERT INTO sub_categories (name, category_id) VALUES (?,?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 
 			ps.setString(1, newSubCategory.getName());
-			ps.setInt(2, newSubCategory.getCategory_id());
+			ps.setInt(2, newSubCategory.getCategoryId());
 
 			ps.executeUpdate();
 
@@ -35,12 +36,7 @@ public class SubCategoryDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 39", e);
 
 		} finally {
 			ConnectionUtil.close(connection, ps);
@@ -52,15 +48,16 @@ public class SubCategoryDAO {
 	 * 
 	 * @param id
 	 * @param updatedSubCategory
+	 * @throws PersistenceException
 	 */
 
-	public void update(int id, SubCategoryEntity updatedSubCategory) {
+	public void update(int id, SubCategoryEntity updatedSubCategory) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		try {
 
-			String query = "UPDATE sub_category SET name=? WHERE is_active=1 AND id=?";
+			String query = "UPDATE sub_categories SET name=? WHERE is_active=1 AND id=?";
 
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
@@ -76,12 +73,7 @@ public class SubCategoryDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 76", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -91,14 +83,15 @@ public class SubCategoryDAO {
 	/**
 	 * 
 	 * @param id
+	 * @throws PersistenceException
 	 */
 
-	public void delete(int id) {
+	public void delete(int id) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "UPDATE sub_category SET is_active = 0 WHERE is_active = 1 AND id = ?";
+			String query = "UPDATE sub_categories SET is_active = 0 WHERE is_active = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -111,12 +104,7 @@ public class SubCategoryDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 107", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -127,8 +115,9 @@ public class SubCategoryDAO {
 	 * 
 	 * @param name
 	 * @throws ValidationException
+	 * @throws PersistenceException
 	 */
-	public void checkSubCategoryExists(String name) throws ValidationException {
+	public void checkSubCategoryExists(String name) throws PersistenceException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -136,7 +125,7 @@ public class SubCategoryDAO {
 
 		try {
 
-			String query = "SELECT * FROM sub_category WHERE is_active=1 AND name = ?";
+			String query = "SELECT * FROM sub_categories WHERE is_active=1 AND name = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -145,20 +134,13 @@ public class SubCategoryDAO {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				throw new ValidationException("This SubCategory name is already exists");
+				throw new PersistenceException("This SubCategory name is already exists");
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 143", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -170,8 +152,9 @@ public class SubCategoryDAO {
 	 * 
 	 * @param id
 	 * @throws ValidationException
+	 * @throws PersistenceException
 	 */
-	public void checkCategoryExists(int id) throws ValidationException {
+	public void checkCategoryExists(int id) throws PersistenceException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -179,7 +162,7 @@ public class SubCategoryDAO {
 
 		try {
 
-			String query = "SELECT * FROM category WHERE is_active=1 AND id = ?";
+			String query = "SELECT * FROM categories WHERE is_active=1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -189,15 +172,14 @@ public class SubCategoryDAO {
 
 			if (!rs.next()) {
 
-				throw new ValidationException("Category does not exists");
+				throw new PersistenceException("Category does not exists");
 
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
+			throw new PersistenceException("Error while executing SQL query in line number 182", e);
 
 		} finally {
 

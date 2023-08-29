@@ -11,7 +11,7 @@ import java.util.Set;
 
 import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
-import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.interfaces.ProductInterfaces;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
 
@@ -19,10 +19,11 @@ import in.fssa.jauntyrialto.util.ConnectionUtil;
 public class ProductDAO implements ProductInterfaces<ProductEntity> {
 	/**
 	 * @return
+	 * @throws PersistenceException
 	 */
 
 	@Override
-	public Set<ProductEntity> findAllProducts() {
+	public Set<ProductEntity> findAllProducts() throws PersistenceException {
 
 		Set<ProductEntity> productList = new HashSet<>();
 
@@ -32,7 +33,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		try {
 
-			String query = "SELECT * FROM product WHERE is_active=1";
+			String query = "SELECT * FROM products WHERE is_active=1";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -43,23 +44,16 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				product.setId(rs.getInt("id"));
 				product.setName(rs.getString("name"));
 				product.setDescription(rs.getString("description"));
-				product.setSub_category_id(rs.getInt("SubCategory_id"));
+				product.setSubCategoryId(rs.getInt("sub_category_id"));
 
 				productList.add(product);
 
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 56", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -70,9 +64,10 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 	/**
 	 * @return
+	 * @throws PersistenceException
 	 */
 	@Override
-	public Set<ProductEntity> findByCategoryId(int id) {
+	public Set<ProductEntity> findByCategoryId(int id) throws PersistenceException {
 
 		Set<SubCategoryEntity> subCategoryId = new HashSet<>();
 
@@ -84,7 +79,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		try {
 
-			String query = "SELECT * FROM sub_category WHERE is_active=1 && category_id = ?";
+			String query = "SELECT * FROM sub_categories WHERE is_active=1 AND category_id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -101,16 +96,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 101", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -124,7 +112,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 			try {
 
-				String query = "SELECT * FROM product WHERE is_active=1 && sub_category_id = ?";
+				String query = "SELECT * FROM products WHERE is_active=1 AND sub_category_id = ?";
 				con = ConnectionUtil.getConnection();
 				ps = con.prepareStatement(query);
 				ps.setInt(1, scid.getId());
@@ -136,7 +124,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
 					product.setDescription(rs.getString("description"));
-					product.setSub_category_id(rs.getInt("SubCategory_id"));
+					product.setSubCategoryId(rs.getInt("SubCategory_id"));
 					product.setPrice(rs.getDouble("price"));
 
 					productListByCateId.add(product);
@@ -144,16 +132,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				}
 
 			} catch (SQLException e) {
-
 				e.printStackTrace();
 				System.out.println(e.getMessage());
-				throw new RuntimeException(e);
-
-			} catch (RuntimeException er) {
-
-				er.printStackTrace();
-				System.out.println(er.getMessage());
-				throw new RuntimeException(er);
+				throw new PersistenceException("Error while executing SQL query in line number 137", e);
 
 			} finally {
 				ConnectionUtil.close(con, ps, rs);
@@ -167,10 +148,11 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 	/**
 	 * @return
+	 * @throws PersistenceException
 	 */
 
 	@Override
-	public Set<ProductEntity> findBySubCategoryId(int id) {
+	public Set<ProductEntity> findBySubCategoryId(int id) throws PersistenceException {
 
 		Set<ProductEntity> productListBySubCateId = new HashSet<>();
 
@@ -180,7 +162,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		try {
 
-			String query = "SELECT * FROM product WHERE is_active=1 && sub_category_id = ?";
+			String query = "SELECT * FROM products WHERE is_active=1 AND sub_category_id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -192,7 +174,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				product.setId(rs.getInt("id"));
 				product.setName(rs.getString("name"));
 				product.setDescription(rs.getString("description"));
-				product.setSub_category_id(rs.getInt("SubCategory_id"));
+				product.setSubCategoryId(rs.getInt("sub_category_id"));
 				product.setPrice(rs.getDouble("price"));
 
 				productListBySubCateId.add(product);
@@ -200,16 +182,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 187", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -221,21 +196,22 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 	/**
 	 * @param
+	 * @throws PersistenceException
 	 */
 	@Override
-	public void create(ProductEntity newProduct) {
+	public void create(ProductEntity newProduct) throws PersistenceException {
 
 		Connection connection = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO product (name, description, Sub_category_id, price) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO products (name, description, Sub_category_id, price) VALUES (?, ?, ?, ?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 
 			ps.setString(1, newProduct.getName());
 			ps.setString(2, newProduct.getDescription());
-			ps.setInt(3, newProduct.getSub_category_id());
+			ps.setInt(3, newProduct.getSubCategoryId());
 			ps.setDouble(4, newProduct.getPrice());
 
 			ps.executeUpdate();
@@ -245,13 +221,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 224", e);
 
 		} finally {
 			ConnectionUtil.close(connection, ps);
@@ -261,10 +231,11 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 	/**
 	 * @param
+	 * @throws PersistenceException
 	 */
 
 	@Override
-	public void update(int id, ProductEntity updatedProduct) {
+	public void update(int id, ProductEntity updatedProduct) throws PersistenceException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -284,9 +255,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				values.add(updatedProduct.getDescription());
 			}
 
-			if (updatedProduct.getSub_category_id() > 0) {
+			if (updatedProduct.getSubCategoryId() > 0) {
 				queryBuilder.append("sub_category_id = ?, ");
-				values.add(updatedProduct.getSub_category_id());
+				values.add(updatedProduct.getSubCategoryId());
 			}
 
 			queryBuilder.setLength(queryBuilder.length() - 2);
@@ -302,16 +273,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			System.out.println("Product has been updated successfully");
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 278", e);
 
 		} finally {
 
@@ -323,16 +287,17 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 	/**
 	 * @param
+	 * @throws PersistenceException
 	 */
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws PersistenceException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		try {
-			String query = "UPDATE product SET is_active = 0 WHERE is_active = 1 AND id = ?";
+			String query = "UPDATE products SET is_active = 0 WHERE is_active = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -342,16 +307,9 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			System.out.println("Product has been deleted successfully");
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
-
-		} catch (RuntimeException er) {
-
-			er.printStackTrace();
-			System.out.println(er.getMessage());
-			throw new RuntimeException(er);
+			throw new PersistenceException("Error while executing SQL query in line number 312", e);
 
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -362,10 +320,10 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 	/**
 	 * 
 	 * @param id
-	 * @throws ValidationException
+	 * @throws PersistenceException
 	 */
 
-	public void checkSubCategoryExists(int id) throws ValidationException {
+	public void checkSubCategoryExists(int id) throws PersistenceException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -373,21 +331,19 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		try {
 
-			String query = "SELECT * FROM sub_category  WHERE is_active=1 AND id=?";
+			String query = "SELECT * FROM sub_categories  WHERE is_active=1 AND id=?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
 			while (!rs.next()) {
-				throw new ValidationException("sub_category id does not exists");
+				throw new PersistenceException("sub_category id does not exists");
 			}
-
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
+			throw new PersistenceException("Error while executing SQL query in line number 389", e);
 
 		} finally {
 

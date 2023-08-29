@@ -6,43 +6,43 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class ConnectionUtil {
 	// this method will be use when ever we connect with database.
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public static Connection getConnection() {
 
-		String url;
-        String userName;
-        String passWord;
+		final String url;
+		final String userName;
+		final String passWord;
 
-        if (System.getenv("CI") != null) {
-            url = System.getenv("DATABASE_HOSTNAME");
-            userName = System.getenv("DATABASE_USERNAME");
-            passWord = System.getenv("DATABASE_PASSWORD");
-        } else {
-            Dotenv env = Dotenv.load();
-            url = env.get("DATABASE_HOSTNAME");
-            userName = env.get("DATABASE_USERNAME");
-            passWord = env.get("DATABASE_PASSWORD");
-        }
+		// CLOUD DATABASE
+		url = System.getenv("DATABASE_HOSTNAME");
+		userName = System.getenv("DATABASE_USERNAME");
+		passWord = System.getenv("DATABASE_PASSWORD");
+
+		// LOCAL DATABASE
+
+//		url = "jdbc:mysql://localhost:3306/jr";
+//		userName = "root";
+//		passWord = "123456";
 
 		Connection connection = null;
 
 		try {
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			connection = DriverManager.getConnection(url, userName, password);
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, userName, passWord);
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new RuntimeException("Unable to connect Database");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Database Driver Class Not Found");
 		}
 
 		return connection;
