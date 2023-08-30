@@ -337,7 +337,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
-			while (!rs.next()) {
+			if (!rs.next()) {
 				throw new PersistenceException("sub_category id does not exists");
 			}
 		} catch (SQLException e) {

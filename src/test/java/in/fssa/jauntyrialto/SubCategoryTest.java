@@ -12,15 +12,29 @@ import in.fssa.jauntyrialto.service.SubCategoryService;
 
 class SubCategoryTest {
 
+	// GENERATE AUTOMATIC STRING FOR EMAIL
+
+	private String generateRandomString(int length) {
+		String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		StringBuilder randomString = new StringBuilder();
+		java.util.Random random = new java.util.Random();
+		for (int i = 0; i < length; i++) {
+			int index = random.nextInt(characters.length());
+			randomString.append(characters.charAt(index));
+		}
+		return randomString.toString();
+	}
+
 	// TEST FOR VALID INPUT TO CREATE SUBCATEGORY
 
 	@Test
 	void testSubCategoryWithValidInput() {
 
 		SubCategoryService subCategoryService = new SubCategoryService();
-
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
-		newSubCategory.setName("WashingMachine");
+
+		String random = generateRandomString(7);
+		newSubCategory.setName(random);
 		newSubCategory.setCategoryId(1);
 		newSubCategory.setActive(true);
 
@@ -134,9 +148,10 @@ class SubCategoryTest {
 	@Test
 	void testUpdateSubCategory() {
 		SubCategoryService subCategoryService = new SubCategoryService();
-
 		SubCategoryEntity updatedSubCategory = new SubCategoryEntity();
-		updatedSubCategory.setName("MicroOvan");
+
+		String random = generateRandomString(7);
+		updatedSubCategory.setName(random);
 		updatedSubCategory.setCategoryId(1);
 		updatedSubCategory.setActive(true);
 
@@ -185,7 +200,7 @@ class SubCategoryTest {
 		SubCategoryEntity newSubCategory = new SubCategoryEntity();
 
 		newSubCategory.setCategoryId(100);
-		newSubCategory.setName("Micro Ovan");
+		newSubCategory.setName("MicroOvan");
 		newSubCategory.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {

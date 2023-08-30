@@ -11,15 +11,28 @@ import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.CategoryService;
 
 class CategoryTest {
-	// TEST FOR VALID INPUT
 
+	// GENERATE AUTOMATIC STRING FOR EMAIL
+	private String generateRandomString(int length) {
+		String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		StringBuilder randomString = new StringBuilder();
+		java.util.Random random = new java.util.Random();
+		for (int i = 0; i < length; i++) {
+			int index = random.nextInt(characters.length());
+			randomString.append(characters.charAt(index));
+		}
+		return randomString.toString();
+	}
+
+	// TEST FOR VALID INPUT
 	@Test
 	void testCategoryWithValidInput() {
 
 		CategoryService categoryService = new CategoryService();
-
 		CategoryEntity newCategory = new CategoryEntity();
-		newCategory.setName("Accessories");
+
+		String random = generateRandomString(7);
+		newCategory.setName(random);
 		newCategory.setIsActive(true);
 
 		assertDoesNotThrow(() -> {
@@ -128,9 +141,10 @@ class CategoryTest {
 	@Test
 	void testUpdateCategory() {
 		CategoryService categoryService = new CategoryService();
-
 		CategoryEntity updatedCategory = new CategoryEntity();
-		updatedCategory.setName("Electricals");
+
+		String random = generateRandomString(7);
+		updatedCategory.setName(random);
 		updatedCategory.setIsActive(true);
 
 		assertDoesNotThrow(() -> {

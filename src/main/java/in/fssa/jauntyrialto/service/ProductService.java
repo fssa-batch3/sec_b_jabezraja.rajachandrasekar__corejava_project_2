@@ -6,21 +6,26 @@ import in.fssa.jauntyrialto.dao.ProductDAO;
 import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ServiceException;
+import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.validator.ProductValidator;
 
 public class ProductService {
 	/**
 	 * 
 	 * @param newProduct
-	 * @throws Exception
+	 * @throws ServiceException
 	 */
 
-	public void create(ProductEntity newProduct) throws Exception {
+	public void create(ProductEntity newProduct) throws ValidationException, ServiceException {
 
-		ProductValidator.validate(newProduct);
-
-		ProductDAO productDAO = new ProductDAO();
-		productDAO.create(newProduct);
+		try {
+			ProductValidator.validate(newProduct);
+			ProductDAO productDAO = new ProductDAO();
+			productDAO.create(newProduct);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
@@ -28,50 +33,65 @@ public class ProductService {
 	 * 
 	 * @param id
 	 * @param updatedProduct
-	 * @throws Exception
+	 * @throws ServiceException
+	 * @throws ValidationException
 	 */
 
-	public void update(int id, ProductEntity updatedProduct) throws Exception {
+	public void update(int id, ProductEntity updatedProduct) throws ValidationException, ServiceException {
 
 		if (id == 0) {
 			throw new ServiceException("Invalid id");
 		}
 
-		ProductValidator.validate(updatedProduct);
-
-		ProductDAO productDAO = new ProductDAO();
-		productDAO.update(id, updatedProduct);
+		try {
+			ProductValidator.validate(updatedProduct);
+			ProductDAO productDAO = new ProductDAO();
+			productDAO.update(id, updatedProduct);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @throws Exception
+	 * @throws ServiceException
 	 */
 
-	public void delete(int id) throws Exception {
+	public void delete(int id) throws ServiceException {
 
 		if (id == 0) {
 			throw new ServiceException("Invalid id");
 		}
 
-		ProductDAO productDAO = new ProductDAO();
-		productDAO.delete(id);
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			productDAO.delete(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
 	/**
 	 * 
 	 * @return
-	 * @throws PersistenceException
+	 * @throws ServiceException
 	 */
 
-	public Set<ProductEntity> findAllProducts() throws PersistenceException {
+	public Set<ProductEntity> findAllProducts() throws ServiceException {
 
-		ProductDAO productDAO = new ProductDAO();
-
-		Set<ProductEntity> ProductList = productDAO.findAllProducts();
+		Set<ProductEntity> ProductList = null;
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			ProductList = productDAO.findAllProducts();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);
@@ -85,14 +105,19 @@ public class ProductService {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws PersistenceException
+	 * @throws ServiceException
 	 */
 
-	public Set<ProductEntity> findProuctsByCategoryId(int id) throws PersistenceException {
+	public Set<ProductEntity> findProductsByCategoryId(int id) throws ServiceException {
 
-		ProductDAO productDAO = new ProductDAO();
-
-		Set<ProductEntity> ProductList = productDAO.findByCategoryId(id);
+		Set<ProductEntity> ProductList = null;
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			ProductList = productDAO.findByCategoryId(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);
@@ -106,13 +131,18 @@ public class ProductService {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws PersistenceException
+	 * @throws ServiceException
 	 */
-	public Set<ProductEntity> findProductsBySubCategoryId(int id) throws PersistenceException {
+	public Set<ProductEntity> findProductsBySubCategoryId(int id) throws ServiceException {
 
-		ProductDAO productDAO = new ProductDAO();
-
-		Set<ProductEntity> ProductList = productDAO.findBySubCategoryId(id);
+		Set<ProductEntity> ProductList = null;
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			ProductList = productDAO.findBySubCategoryId(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 		for (ProductEntity prod : ProductList) {
 			System.out.println(prod);

@@ -4,13 +4,29 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 import in.fssa.jauntyrialto.entity.ProductEntity;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.ProductService;
 
 class ProductTest {
+
+////GENERATE AUTOMATIC STRING FOR EMAIL
+
+	private String generateRandomString(int length) {
+		String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder randomString = new StringBuilder();
+		java.util.Random random = new java.util.Random();
+		for (int i = 0; i < length; i++) {
+			int index = random.nextInt(characters.length());
+			randomString.append(characters.charAt(index));
+		}
+		return randomString.toString();
+	}
 
 	// TEST FOR VALID INPUT TO CREATE PRODUCT
 
@@ -18,9 +34,10 @@ class ProductTest {
 	void testProductWithValidInput() {
 
 		ProductService productService = new ProductService();
-
 		ProductEntity newProduct = new ProductEntity();
-		newProduct.setName("POCO M16");
+
+		String random = generateRandomString(7);
+		newProduct.setName(random);
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
@@ -157,6 +174,37 @@ class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
+	// TEST FOR UPDATE PRODUCT
+
+	@Test
+	void testUpdateProduct() {
+		ProductService productService = new ProductService();
+		ProductEntity updatedProduct = new ProductEntity();
+
+		String random = generateRandomString(7);
+		updatedProduct.setName(random);
+		updatedProduct.setSubCategoryId(6);
+		String randomDescription = generateRandomString(70);
+		updatedProduct.setDescription(randomDescription);
+		updatedProduct.setPrice(4500.00);
+		updatedProduct.setActive(true);
+
+		assertDoesNotThrow(() -> {
+			productService.update(1, updatedProduct);
+		});
+
+	}
+
+	// TEST FOR DELETE PRODUCT
+
+	@Test
+	void testDeleteProduct() throws Exception {
+
+		ProductService productService = new ProductService(); //
+		productService.delete(3);
+
+	}
+
 	// TEST FOR SUBCATEGORY ID WITH 0
 	@Test
 	void testSubCategoryIdIsZero() {
@@ -225,13 +273,15 @@ class ProductTest {
 		assertTrue(exceptedMessage.equals(actualMessage));
 	}
 
-//	// TEST FOR GET ALL PRODUCTS
-//
-//	@Test
-//	public void getAllProducts() {
-//		ProductService productService = new ProductService();
-//		Set<ProductEntity> productList = productService.findAllProducts();
-//		System.out.println(productList);
-//	}
+	// TEST FOR GET ALL PRODUCTS
+
+	@Test
+	void getAllProducts() throws ServiceException {
+		ProductService productService = new ProductService();
+		assertDoesNotThrow(() -> {
+			Set<ProductEntity> productList = productService.findAllProducts();
+			System.out.println(productList);
+		});
+	}
 
 }

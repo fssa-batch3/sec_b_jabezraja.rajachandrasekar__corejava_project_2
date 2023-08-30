@@ -16,7 +16,6 @@ public class CategoryValidator {
 	 * @param category
 	 * @throws ValidationException
 	 */
-
 	public static void validate(CategoryEntity category) throws ValidationException {
 		if (category == null) {
 			throw new ValidationException("Invalid category input");
@@ -32,7 +31,7 @@ public class CategoryValidator {
 		try {
 			categoryDAO.checkCategoryExists(category.getName());
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			throw new ValidationException(e.getMessage());
 		}
 
 	}

@@ -35,6 +35,7 @@ public class SubCategoryValidator {
 			subcategoryDAO.checkSubCategoryExists(subcategory.getName());
 		} catch (PersistenceException e) {
 			e.printStackTrace();
+			throw new ValidationException(e.getMessage());
 		}
 
 	}
@@ -53,9 +54,10 @@ public class SubCategoryValidator {
 
 		SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
 		try {
-			subcategoryDAO.checkCategoryExists(id);
+			subcategoryDAO.checkCategoryNotExists(id);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
+			throw new ValidationException(e.getMessage());
 		}
 
 	}

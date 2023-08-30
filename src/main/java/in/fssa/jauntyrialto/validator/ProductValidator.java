@@ -76,6 +76,7 @@ public class ProductValidator {
 			productDao.checkSubCategoryExists(id);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
+			throw new ValidationException(e.getMessage());
 		}
 
 	}

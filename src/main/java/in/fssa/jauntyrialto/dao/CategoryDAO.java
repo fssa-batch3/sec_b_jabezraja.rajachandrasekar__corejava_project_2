@@ -132,15 +132,45 @@ public class CategoryDAO {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-
 				throw new PersistenceException("This category name is already exists");
-
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new PersistenceException("Error while executing SQL query in line number 143", e);
+			throw new PersistenceException("Error while executing SQL query in line number 141", e);
+
+		} finally {
+
+			ConnectionUtil.close(con, ps, rs);
+
+		}
+	}
+	
+	public void checkCategoryNotExists(String name) throws PersistenceException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "SELECT * FROM categories WHERE is_active=1 AND name = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+
+			ps.setString(1, name);
+
+			rs = ps.executeQuery();
+
+			if (!rs.next()) {
+				throw new PersistenceException("This category name is already exists");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 141", e);
 
 		} finally {
 
