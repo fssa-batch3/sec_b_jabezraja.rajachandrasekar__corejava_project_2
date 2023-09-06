@@ -39,6 +39,11 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>in.jabezraja</groupId>
+			<artifactId>captain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 

@@ -152,4 +152,18 @@ public class ProductService {
 
 	}
 
+	public ProductEntity findProductByProductId(int id) throws ServiceException {
+
+		ProductEntity ProductDetail = null;
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			ProductDetail = productDAO.findProductById(id);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		return ProductDetail;
+	}
+
 }

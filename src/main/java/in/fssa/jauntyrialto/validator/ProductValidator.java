@@ -86,7 +86,6 @@ public class ProductValidator {
 	 * @param description
 	 * @throws ValidationException
 	 */
-
 	public static void validateDescription(String description) throws ValidationException {
 
 		StringUtil.rejectIfInvalidString(description, "Description");

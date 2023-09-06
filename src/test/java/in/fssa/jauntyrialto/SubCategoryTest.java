@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.SubCategoryService;
 
@@ -210,6 +213,17 @@ class SubCategoryTest {
 		String actualMessage = exception.getMessage();
 
 		assertTrue(exceptedMessage.equals(actualMessage));
+	}
+
+	// TEST FOR GET ALL PRODUCTS
+
+	@Test
+	void getAllSubCategories() throws ServiceException {
+		SubCategoryService subCategoryService = new SubCategoryService();
+		assertDoesNotThrow(() -> {
+			List<SubCategoryEntity> subCategoryList = subCategoryService.getAllSubCategories();
+			System.out.println(subCategoryList);
+		});
 	}
 
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
@@ -248,4 +250,40 @@ public class SubCategoryDAO {
 
 		}
 	}
+
+	public List<SubCategoryEntity> findAll() throws PersistenceException {
+
+		List<SubCategoryEntity> SubCategoryList = new ArrayList<>();
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			String query = "SELECT * FROM sub_categories WHERE is_active=1";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				SubCategoryEntity subCategory = new SubCategoryEntity();
+				subCategory.setId(rs.getInt("id"));
+				subCategory.setName(rs.getString("name"));
+				subCategory.setCategoryId(rs.getInt("category_id"));
+				SubCategoryList.add(subCategory);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 280", e);
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+
+		return SubCategoryList;
+	}
+
 }

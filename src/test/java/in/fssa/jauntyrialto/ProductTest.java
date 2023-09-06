@@ -284,4 +284,15 @@ class ProductTest {
 		});
 	}
 
+	// TEST FOR GET PRODUCT BY PRODUCT ID
+
+	@Test
+	void getProductByProductId() throws ServiceException {
+		ProductService productService = new ProductService();
+		assertDoesNotThrow(() -> {
+			ProductEntity productList = productService.findProductByProductId(11);
+			System.out.println(productList);
+		});
+	}
+
 }

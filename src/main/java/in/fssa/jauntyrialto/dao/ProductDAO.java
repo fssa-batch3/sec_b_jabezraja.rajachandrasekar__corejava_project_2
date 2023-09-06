@@ -45,6 +45,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				product.setName(rs.getString("name"));
 				product.setDescription(rs.getString("description"));
 				product.setSubCategoryId(rs.getInt("sub_category_id"));
+				product.setPrice(rs.getDouble("price"));
 
 				productList.add(product);
 
@@ -350,6 +351,44 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			ConnectionUtil.close(con, ps, rs);
 
 		}
+	}
+
+	@Override
+	public ProductEntity findProductById(int id) throws PersistenceException {
+		ProductEntity productByProductId = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "SELECT * FROM products WHERE is_active=1 AND id = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				productByProductId = new ProductEntity();
+				productByProductId.setId(rs.getInt("id"));
+				productByProductId.setName(rs.getString("name"));
+				productByProductId.setDescription(rs.getString("description"));
+				productByProductId.setSubCategoryId(rs.getInt("sub_category_id"));
+				productByProductId.setPrice(rs.getDouble("price"));
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 387", e);
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+
+		return productByProductId;
 	}
 
 }

@@ -16,4 +16,6 @@ public interface ProductInterfaces<T> {
 	public abstract Set<T> findByCategoryId(int id) throws PersistenceException;
 
 	public abstract Set<T> findBySubCategoryId(int id) throws PersistenceException;
+
+	public abstract T findProductById(int id) throws PersistenceException;
 }

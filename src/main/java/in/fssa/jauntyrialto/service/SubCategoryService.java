@@ -1,5 +1,9 @@
 package in.fssa.jauntyrialto.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import in.fssa.jauntyrialto.dao.SubCategoryDAO;
 import in.fssa.jauntyrialto.entity.SubCategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
@@ -71,6 +75,28 @@ public class SubCategoryService {
 			throw new ServiceException(e.getMessage());
 		}
 
+	}
+
+	public List<SubCategoryEntity> getAllSubCategories() throws ServiceException {
+
+		List<SubCategoryEntity> subCategoryList = new ArrayList<>();
+
+		try {
+			SubCategoryDAO subCategoryDAO = new SubCategoryDAO();
+
+			subCategoryList = subCategoryDAO.findAll();
+
+			Iterator<SubCategoryEntity> iterator = subCategoryList.iterator();
+
+			while (iterator.hasNext()) {
+				System.out.println(iterator.next());
+			}
+
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+		return subCategoryList;
 	}
 
 }
