@@ -260,6 +260,11 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				queryBuilder.append("sub_category_id = ?, ");
 				values.add(updatedProduct.getSubCategoryId());
 			}
+			
+			if (updatedProduct.getPrice() > 0) {
+				queryBuilder.append("price = ?, ");
+				values.add(updatedProduct.getPrice());
+			}
 
 			queryBuilder.setLength(queryBuilder.length() - 2);
 			queryBuilder.append(" WHERE is_active = 1 AND id = ?");
