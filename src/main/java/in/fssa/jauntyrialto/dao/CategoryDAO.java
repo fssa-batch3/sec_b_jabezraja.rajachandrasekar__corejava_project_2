@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
+import in.fssa.jauntyrialto.util.Logger;
 
 public class CategoryDAO {
+	Logger logger = new Logger();
+
 	/**
 	 * 
 	 * @param newCategory
@@ -30,7 +33,7 @@ public class CategoryDAO {
 			System.out.println("Category has been created successfully");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 35", e);
 
@@ -146,7 +149,7 @@ public class CategoryDAO {
 
 		}
 	}
-	
+
 	public void checkCategoryNotExists(String name) throws PersistenceException {
 
 		Connection con = null;
