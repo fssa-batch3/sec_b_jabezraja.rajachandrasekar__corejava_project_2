@@ -14,9 +14,12 @@ import in.fssa.jauntyrialto.entity.SubCategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.interfaces.ProductInterfaces;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
+import in.fssa.jauntyrialto.util.Logger;
 
 //class ProductDAOImpl implements ProductDAO<Product>
 public class ProductDAO implements ProductInterfaces<ProductEntity> {
+	Logger logger = new Logger();
+
 	/**
 	 * @return
 	 * @throws PersistenceException
@@ -52,7 +55,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 56", e);
 
@@ -97,7 +100,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 101", e);
 
@@ -133,7 +136,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				}
 
 			} catch (SQLException e) {
-				e.printStackTrace();
+				logger.error(e);
 				System.out.println(e.getMessage());
 				throw new PersistenceException("Error while executing SQL query in line number 137", e);
 
@@ -183,7 +186,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 187", e);
 
@@ -220,7 +223,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			System.out.println("Product has been created successfully");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 224", e);
 
@@ -260,7 +263,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				queryBuilder.append("sub_category_id = ?, ");
 				values.add(updatedProduct.getSubCategoryId());
 			}
-			
+
 			if (updatedProduct.getPrice() > 0) {
 				queryBuilder.append("price = ?, ");
 				values.add(updatedProduct.getPrice());
@@ -279,7 +282,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			System.out.println("Product has been updated successfully");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 278", e);
 
@@ -313,7 +316,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			System.out.println("Product has been deleted successfully");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 312", e);
 
@@ -347,7 +350,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				throw new PersistenceException("sub_category id does not exists");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 389", e);
 
@@ -385,7 +388,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.out.println(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 387", e);
 
