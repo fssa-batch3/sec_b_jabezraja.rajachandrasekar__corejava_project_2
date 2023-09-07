@@ -6,9 +6,12 @@ import in.fssa.jauntyrialto.dao.CategoryDAO;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.util.StringUtil;
 
 public class CategoryValidator {
+	static Logger logger = new Logger();
+
 	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\\\s]*$";
 
 	/**
@@ -31,6 +34,7 @@ public class CategoryValidator {
 		try {
 			categoryDAO.checkCategoryExists(category.getName());
 		} catch (PersistenceException e) {
+			logger.error(e);
 			throw new ValidationException(e.getMessage());
 		}
 

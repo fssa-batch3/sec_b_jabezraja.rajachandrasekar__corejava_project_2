@@ -7,9 +7,12 @@ import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.validator.ProductValidator;
 
 public class ProductService {
+	Logger logger = new Logger();
+
 	/**
 	 * 
 	 * @param newProduct
@@ -23,7 +26,7 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			productDAO.create(newProduct);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -48,7 +51,7 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			productDAO.update(id, updatedProduct);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -70,7 +73,7 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			productDAO.delete(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -89,12 +92,12 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			ProductList = productDAO.findAllProducts();
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		for (ProductEntity prod : ProductList) {
-			System.out.println(prod);
+			logger.debug(prod);
 		}
 
 		return ProductList;
@@ -115,12 +118,12 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			ProductList = productDAO.findByCategoryId(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		for (ProductEntity prod : ProductList) {
-			System.out.println(prod);
+			logger.debug(prod);
 		}
 
 		return ProductList;
@@ -140,12 +143,12 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			ProductList = productDAO.findBySubCategoryId(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		for (ProductEntity prod : ProductList) {
-			System.out.println(prod);
+			logger.debug(prod);
 		}
 
 		return ProductList;
@@ -159,7 +162,7 @@ public class ProductService {
 			ProductDAO productDAO = new ProductDAO();
 			ProductDetail = productDAO.findProductById(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 

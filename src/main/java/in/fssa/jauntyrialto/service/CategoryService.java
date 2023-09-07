@@ -5,9 +5,12 @@ import in.fssa.jauntyrialto.entity.CategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.validator.CategoryValidator;
 
 public class CategoryService {
+	Logger logger = new Logger();
+
 	/**
 	 * 
 	 * @param newCategory
@@ -20,7 +23,7 @@ public class CategoryService {
 			CategoryDAO categoryDAO = new CategoryDAO();
 			categoryDAO.create(newCategory);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -32,7 +35,6 @@ public class CategoryService {
 	 * @throws Exception
 	 */
 
-	////// ServiceException, ValidationException, PersistenceException ///////
 	public void update(int id, CategoryEntity updatedCategory) throws ValidationException, ServiceException {
 
 		if (id <= 0) {
@@ -44,7 +46,7 @@ public class CategoryService {
 			CategoryDAO categoryDAO = new CategoryDAO();
 			categoryDAO.update(id, updatedCategory);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -66,7 +68,7 @@ public class CategoryService {
 			CategoryDAO categoryDAO = new CategoryDAO();
 			categoryDAO.delete(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 

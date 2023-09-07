@@ -9,9 +9,12 @@ import in.fssa.jauntyrialto.entity.SubCategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.validator.SubCategoryValidator;
 
 public class SubCategoryService {
+	Logger logger = new Logger();
+
 	/**
 	 * 
 	 * @param newSubCategory
@@ -25,7 +28,7 @@ public class SubCategoryService {
 			SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
 			subcategoryDAO.create(newSubCategory);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -49,7 +52,7 @@ public class SubCategoryService {
 			SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
 			subcategoryDAO.update(id, updatedSubCategory);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -71,7 +74,7 @@ public class SubCategoryService {
 			SubCategoryDAO subcategoryDAO = new SubCategoryDAO();
 			subcategoryDAO.delete(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -89,11 +92,11 @@ public class SubCategoryService {
 			Iterator<SubCategoryEntity> iterator = subCategoryList.iterator();
 
 			while (iterator.hasNext()) {
-				System.out.println(iterator.next());
+				logger.debug(iterator.next());
 			}
 
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 		return subCategoryList;

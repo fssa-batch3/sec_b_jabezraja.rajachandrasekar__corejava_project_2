@@ -6,9 +6,11 @@ import in.fssa.jauntyrialto.dao.ProductDAO;
 import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
+import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.util.StringUtil;
 
 public class ProductValidator {
+	static Logger logger = new Logger();
 
 	private static final String NAME_PATTERN = "^[a-zA-Z0-9 ]+$";
 
@@ -75,7 +77,7 @@ public class ProductValidator {
 		try {
 			productDao.checkSubCategoryExists(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ValidationException(e.getMessage());
 		}
 
