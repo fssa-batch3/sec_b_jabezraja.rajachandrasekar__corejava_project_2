@@ -35,11 +35,11 @@ public class SubCategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("SubCategory has been created successfully");
+			logger.debug("SubCategory has been created successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 39", e);
 
 		} finally {
@@ -72,11 +72,11 @@ public class SubCategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("SubCategory has been updated successfully");
+			logger.debug("SubCategory has been updated successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 76", e);
 
 		} finally {
@@ -103,11 +103,11 @@ public class SubCategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("SubCategory has been deleted successfully");
+			logger.debug("SubCategory has been deleted successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 107", e);
 
 		} finally {
@@ -143,7 +143,7 @@ public class SubCategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 143", e);
 
 		} finally {
@@ -174,7 +174,7 @@ public class SubCategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 143", e);
 
 		} finally {
@@ -211,7 +211,7 @@ public class SubCategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 180", e);
 
 		} finally {
@@ -243,7 +243,7 @@ public class SubCategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 180", e);
 
 		} finally {
@@ -278,7 +278,7 @@ public class SubCategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 280", e);
 
 		} finally {

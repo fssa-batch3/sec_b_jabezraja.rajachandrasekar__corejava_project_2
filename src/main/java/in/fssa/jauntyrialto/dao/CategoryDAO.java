@@ -30,11 +30,11 @@ public class CategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("Category has been created successfully");
+			logger.debug("Category has been created successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 35", e);
 
 		} finally {
@@ -67,11 +67,11 @@ public class CategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("Category has been updated successfully");
+			logger.debug("Category has been updated successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 72", e);
 
 		} finally {
@@ -99,11 +99,11 @@ public class CategoryDAO {
 
 			ps.executeUpdate();
 
-			System.out.println("Category has been deleted successfully");
+			logger.debug("Category has been deleted successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 104", e);
 
 		} finally {
@@ -140,7 +140,7 @@ public class CategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 141", e);
 
 		} finally {
@@ -172,7 +172,7 @@ public class CategoryDAO {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 141", e);
 
 		} finally {

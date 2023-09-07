@@ -56,7 +56,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 56", e);
 
 		} finally {
@@ -101,7 +101,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 101", e);
 
 		} finally {
@@ -137,7 +137,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 			} catch (SQLException e) {
 				logger.error(e);
-				System.out.println(e.getMessage());
+				logger.debug(e.getMessage());
 				throw new PersistenceException("Error while executing SQL query in line number 137", e);
 
 			} finally {
@@ -187,7 +187,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 187", e);
 
 		} finally {
@@ -224,7 +224,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 224", e);
 
 		} finally {
@@ -279,11 +279,11 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 			ps.setInt(values.size() + 1, id);
 			ps.executeUpdate();
-			System.out.println("Product has been updated successfully");
+			logger.debug("Product has been updated successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 278", e);
 
 		} finally {
@@ -313,11 +313,11 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			ps.setInt(1, id);
 			ps.executeUpdate();
 
-			System.out.println("Product has been deleted successfully");
+			logger.debug("Product has been deleted successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 312", e);
 
 		} finally {
@@ -351,7 +351,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			}
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 389", e);
 
 		} finally {
@@ -389,7 +389,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 
 		} catch (SQLException e) {
 			logger.error(e);
-			System.out.println(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new PersistenceException("Error while executing SQL query in line number 387", e);
 
 		} finally {
