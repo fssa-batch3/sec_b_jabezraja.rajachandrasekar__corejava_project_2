@@ -20,15 +20,15 @@ public class ConnectionUtil {
 		final String passWord;
 
 		// CLOUD DATABASE
-		url = System.getenv("DATABASE_HOSTNAME");
-		userName = System.getenv("DATABASE_USERNAME");
-		passWord = System.getenv("DATABASE_PASSWORD");
+//		url = System.getenv("DATABASE_HOSTNAME");
+//		userName = System.getenv("DATABASE_USERNAME");
+//		passWord = System.getenv("DATABASE_PASSWORD");
 
 		// LOCAL DATABASE
 
-//		url = "jdbc:mysql://localhost:3306/jr";
-//		userName = "root";
-//		passWord = "123456";
+		url = System.getenv("LOCAL_DATABASE_HOSTNAME");
+		userName = System.getenv("LOCAL_DATABASE_USERNAME");
+		passWord = System.getenv("LOCAL_DATABASE_PASSWORD");
 
 		Connection connection = null;
 
