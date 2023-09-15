@@ -49,6 +49,10 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				product.setDescription(rs.getString("description"));
 				product.setSubCategoryId(rs.getInt("sub_category_id"));
 				product.setPrice(rs.getDouble("price"));
+				product.setMainImg(rs.getString("main_image"));
+				product.setSubImg1(rs.getString("sub_image_1"));
+				product.setSubImg2(rs.getString("sub_image_2"));
+				product.setSubImg3(rs.getString("sub_image_3"));
 
 				productList.add(product);
 
@@ -128,8 +132,12 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
 					product.setDescription(rs.getString("description"));
-					product.setSubCategoryId(rs.getInt("SubCategory_id"));
+					product.setSubCategoryId(rs.getInt("sub_category_id"));
 					product.setPrice(rs.getDouble("price"));
+					product.setMainImg(rs.getString("main_image"));
+					product.setSubImg1(rs.getString("sub_image_1"));
+					product.setSubImg2(rs.getString("sub_image_2"));
+					product.setSubImg3(rs.getString("sub_image_3"));
 
 					productListByCateId.add(product);
 
@@ -180,6 +188,10 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				product.setDescription(rs.getString("description"));
 				product.setSubCategoryId(rs.getInt("sub_category_id"));
 				product.setPrice(rs.getDouble("price"));
+				product.setMainImg(rs.getString("main_image"));
+				product.setSubImg1(rs.getString("sub_image_1"));
+				product.setSubImg2(rs.getString("sub_image_2"));
+				product.setSubImg3(rs.getString("sub_image_3"));
 
 				productListBySubCateId.add(product);
 
@@ -209,7 +221,7 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO products (name, description, Sub_category_id, price) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO products (name, description, Sub_category_id, price, main_image, sub_image_1, sub_image_2, sub_image_3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 
@@ -217,10 +229,14 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			ps.setString(2, newProduct.getDescription());
 			ps.setInt(3, newProduct.getSubCategoryId());
 			ps.setDouble(4, newProduct.getPrice());
+			ps.setString(5, newProduct.getMainImg());
+			ps.setString(6, newProduct.getSubImg1());
+			ps.setString(7, newProduct.getSubImg2());
+			ps.setString(8, newProduct.getSubImg3());
 
 			ps.executeUpdate();
 
-			System.out.println("Product has been created successfully");
+			logger.debug("Product has been created successfully");
 
 		} catch (SQLException e) {
 			logger.error(e);
@@ -267,6 +283,26 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 			if (updatedProduct.getPrice() > 0) {
 				queryBuilder.append("price = ?, ");
 				values.add(updatedProduct.getPrice());
+			}
+
+			if (updatedProduct.getMainImg() != null) {
+				queryBuilder.append("main_image = ?, ");
+				values.add(updatedProduct.getMainImg());
+			}
+
+			if (updatedProduct.getSubImg1() != null) {
+				queryBuilder.append("sub_image_1 = ?, ");
+				values.add(updatedProduct.getSubImg1());
+			}
+
+			if (updatedProduct.getSubImg2() != null) {
+				queryBuilder.append("sub_image_2 = ?, ");
+				values.add(updatedProduct.getSubImg2());
+			}
+
+			if (updatedProduct.getSubImg3() != null) {
+				queryBuilder.append("sub_image_3 = ?, ");
+				values.add(updatedProduct.getSubImg3());
 			}
 
 			queryBuilder.setLength(queryBuilder.length() - 2);
@@ -384,6 +420,10 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 				productByProductId.setDescription(rs.getString("description"));
 				productByProductId.setSubCategoryId(rs.getInt("sub_category_id"));
 				productByProductId.setPrice(rs.getDouble("price"));
+				productByProductId.setMainImg(rs.getString("main_image"));
+				productByProductId.setSubImg1(rs.getString("sub_image_1"));
+				productByProductId.setSubImg2(rs.getString("sub_image_2"));
+				productByProductId.setSubImg3(rs.getString("sub_image_3"));
 
 			}
 
@@ -397,6 +437,48 @@ public class ProductDAO implements ProductInterfaces<ProductEntity> {
 		}
 
 		return productByProductId;
+	}
+
+	@Override
+	public ProductEntity findProductByName(String name) throws PersistenceException {
+		ProductEntity productByProductName = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "SELECT * FROM products WHERE is_active=1 AND name = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				productByProductName = new ProductEntity();
+				productByProductName.setId(rs.getInt("id"));
+				productByProductName.setName(rs.getString("name"));
+				productByProductName.setDescription(rs.getString("description"));
+				productByProductName.setSubCategoryId(rs.getInt("sub_category_id"));
+				productByProductName.setPrice(rs.getDouble("price"));
+				productByProductName.setMainImg(rs.getString("main_image"));
+				productByProductName.setSubImg1(rs.getString("sub_image_1"));
+				productByProductName.setSubImg2(rs.getString("sub_image_2"));
+				productByProductName.setSubImg3(rs.getString("sub_image_3"));
+
+			}
+
+		} catch (SQLException e) {
+			logger.error(e);
+			logger.debug(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 475", e);
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+
+		return productByProductName;
 	}
 
 }

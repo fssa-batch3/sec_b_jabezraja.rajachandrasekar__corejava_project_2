@@ -33,4 +33,8 @@ public class PersistenceException extends Exception {
 		super(msg);
 	}
 
+	public PersistenceException(String message, Exception e) {
+		super(message, e);
+	}
+
 }

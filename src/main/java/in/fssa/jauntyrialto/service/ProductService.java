@@ -87,20 +87,20 @@ public class ProductService {
 
 	public Set<ProductEntity> findAllProducts() throws ServiceException {
 
-		Set<ProductEntity> ProductList = null;
+		Set<ProductEntity> productList = null;
 		try {
 			ProductDAO productDAO = new ProductDAO();
-			ProductList = productDAO.findAllProducts();
+			productList = productDAO.findAllProducts();
 		} catch (PersistenceException e) {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		for (ProductEntity prod : ProductList) {
+		for (ProductEntity prod : productList) {
 			logger.debug(prod);
 		}
 
-		return ProductList;
+		return productList;
 
 	}
 
@@ -113,20 +113,20 @@ public class ProductService {
 
 	public Set<ProductEntity> findProductsByCategoryId(int id) throws ServiceException {
 
-		Set<ProductEntity> ProductList = null;
+		Set<ProductEntity> productList = null;
 		try {
 			ProductDAO productDAO = new ProductDAO();
-			ProductList = productDAO.findByCategoryId(id);
+			productList = productDAO.findByCategoryId(id);
 		} catch (PersistenceException e) {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		for (ProductEntity prod : ProductList) {
+		for (ProductEntity prod : productList) {
 			logger.debug(prod);
 		}
 
-		return ProductList;
+		return productList;
 
 	}
 
@@ -138,35 +138,48 @@ public class ProductService {
 	 */
 	public Set<ProductEntity> findProductsBySubCategoryId(int id) throws ServiceException {
 
-		Set<ProductEntity> ProductList = null;
+		Set<ProductEntity> productList = null;
 		try {
 			ProductDAO productDAO = new ProductDAO();
-			ProductList = productDAO.findBySubCategoryId(id);
+			productList = productDAO.findBySubCategoryId(id);
 		} catch (PersistenceException e) {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		for (ProductEntity prod : ProductList) {
+		for (ProductEntity prod : productList) {
 			logger.debug(prod);
 		}
 
-		return ProductList;
+		return productList;
 
 	}
 
 	public ProductEntity findProductByProductId(int id) throws ServiceException {
 
-		ProductEntity ProductDetail = null;
+		ProductEntity productDetail = null;
 		try {
 			ProductDAO productDAO = new ProductDAO();
-			ProductDetail = productDAO.findProductById(id);
+			productDetail = productDAO.findProductById(id);
 		} catch (PersistenceException e) {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
-		return ProductDetail;
+		return productDetail;
+	}
+
+	public ProductEntity findProductByProductName(String name) throws ServiceException {
+		ProductEntity productDetail = null;
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			productDetail = productDAO.findProductByName(name);
+		} catch (PersistenceException e) {
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+
+		return productDetail;
 	}
 
 }

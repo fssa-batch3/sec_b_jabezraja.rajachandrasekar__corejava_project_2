@@ -41,6 +41,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		assertDoesNotThrow(() -> {
@@ -76,6 +80,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -99,6 +107,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -121,6 +133,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -142,6 +158,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription(null);
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -163,6 +183,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -187,6 +211,11 @@ class ProductTest {
 		String randomDescription = generateRandomString(70);
 		updatedProduct.setDescription(randomDescription);
 		updatedProduct.setPrice(4500.00);
+		updatedProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		updatedProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		updatedProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		updatedProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
+
 		updatedProduct.setActive(true);
 
 		assertDoesNotThrow(() -> {
@@ -216,6 +245,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(0);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -239,6 +272,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(100);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(4500.00);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -262,6 +299,10 @@ class ProductTest {
 		newProduct.setSubCategoryId(1);
 		newProduct.setDescription("The most high tech");
 		newProduct.setPrice(0);
+		newProduct.setMainImg("https://iili.io/HUm4pSe.jpg");
+		newProduct.setSubImg1("https://iili.io/HUm4ml9.jpg");
+		newProduct.setSubImg2("https://iili.io/HUm6dDx.jpg");
+		newProduct.setSubImg3("https://iili.io/HUm4bK7.jpg");
 		newProduct.setActive(true);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
@@ -290,7 +331,28 @@ class ProductTest {
 	void getProductByProductId() throws ServiceException {
 		ProductService productService = new ProductService();
 		assertDoesNotThrow(() -> {
-			ProductEntity productList = productService.findProductByProductId(11);
+			ProductEntity productList = productService.findProductByProductId(5);
+			System.out.println(productList);
+		});
+	}
+
+	// TEST FOR GET PRODUCT BY PRODUCT NAME
+
+	@Test
+	void getProductByProductName() throws ServiceException {
+		ProductService productService = new ProductService();
+		assertDoesNotThrow(() -> {
+			ProductEntity productList = productService.findProductByProductName("Dark Chocolate Bar");
+			System.out.println(productList);
+		});
+	}
+
+	// TEST FOR GET PRODUCT BY CATEGORY ID
+	@Test
+	void getProductByCategoryId() throws ServiceException {
+		ProductService productService = new ProductService();
+		assertDoesNotThrow(() -> {
+			Set<ProductEntity> productList = productService.findProductsByCategoryId(1);
 			System.out.println(productList);
 		});
 	}
