@@ -12,7 +12,7 @@ import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.UserService;
 
 class UserTest {
-////GENERATE AUTOMATIC STRING FOR EMAIL
+	//// GENERATE AUTOMATIC STRING FOR EMAIL
 
 	private String generateRandomString(int length) {
 		String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -32,11 +32,9 @@ class UserTest {
 	private long generateRandomPhoneNumber(int length) {
 		java.util.Random random = new java.util.Random();
 
-		// Define the range for the random phone number
-		long minPhoneNumber = 600_000_0000L; // Replace with the desired minimum value
-		long maxPhoneNumber = 999_999_9999L; // Replace with the desired maximum value
+		long minPhoneNumber = 600_000_0000L;
+		long maxPhoneNumber = 999_999_9999L;
 
-		// Generate a random long number within the specified range
 		long phoneNumber = minPhoneNumber + (long) (random.nextDouble() * (maxPhoneNumber - minPhoneNumber + 1));
 
 		return phoneNumber;
@@ -79,7 +77,7 @@ class UserTest {
 		assertEquals(exceptedMessage, actualMessage);
 	}
 
-////TEST FOR EMAIL WITH NULL
+	//// TEST FOR EMAIL WITH NULL
 
 	@Test
 	void testCreateUserWithEmailNull() {
@@ -239,7 +237,7 @@ class UserTest {
 	//// TEST FOR PASSWORD WITH PATTERN
 
 	@Test
-	public void testCreateUserWithPasswordPattern() {
+	void testCreateUserWithPasswordPattern() {
 
 		UserService userService = new UserService();
 
@@ -375,7 +373,7 @@ class UserTest {
 	//// TEST FOR PHONE NUMBER WITH PATTERN
 
 	@Test
-	public void testCreateUserWithInvalidPhoneNumber() {
+	void testCreateUserWithInvalidPhoneNumber() {
 
 		UserService userService = new UserService();
 
@@ -456,7 +454,7 @@ class UserTest {
 
 	}
 
-////TEST FOR DELETE USER
+	//// TEST FOR DELETE USER
 
 	@Test
 	void deleteUser() throws ServiceException, ValidationException {

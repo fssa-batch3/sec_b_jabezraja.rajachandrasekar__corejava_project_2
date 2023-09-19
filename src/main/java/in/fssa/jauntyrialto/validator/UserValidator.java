@@ -32,7 +32,6 @@ public class UserValidator {
 		validateEmail(user.getEmail());
 		validatePassword(user.getPassword());
 		validatePhone(user.getPhone());
-
 	}
 
 	/**

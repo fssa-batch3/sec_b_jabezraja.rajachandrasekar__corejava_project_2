@@ -1,8 +1,8 @@
 package in.fssa.jauntyrialto;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class CategoryTest {
 		String exceptedMessage = "Invalid category input";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR CATEGORYNAME WITH NULL
@@ -73,7 +73,7 @@ class CategoryTest {
 		String exceptedMessage = "Category name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR CATEGORYNAME WITH EMPTY STRING
@@ -93,7 +93,7 @@ class CategoryTest {
 		String exceptedMessage = "Category name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR CATEGORY NAME WITH PATTERN
@@ -113,7 +113,7 @@ class CategoryTest {
 		String exceptedMessage = "Category name doesn't match the pattern";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR CATEGORY ALREADY EXISTS
@@ -133,7 +133,7 @@ class CategoryTest {
 		String exceptedMessage = "This category name is already exists";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR UPDATE CATEGORY

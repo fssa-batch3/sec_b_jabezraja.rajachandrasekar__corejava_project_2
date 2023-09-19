@@ -7,8 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
+	static Logger logger = new Logger();
 	// this method will be use when ever we connect with database.
-	
+
 	/**
 	 * 
 	 * @return
@@ -38,10 +39,10 @@ public class ConnectionUtil {
 			connection = DriverManager.getConnection(url, userName, passWord);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new RuntimeException("Unable to connect Database");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new RuntimeException("Database Driver Class Not Found");
 		}
 
@@ -62,7 +63,7 @@ public class ConnectionUtil {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -86,7 +87,7 @@ public class ConnectionUtil {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 }

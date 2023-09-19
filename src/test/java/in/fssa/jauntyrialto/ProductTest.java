@@ -1,8 +1,8 @@
 package in.fssa.jauntyrialto;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
@@ -65,7 +65,7 @@ class ProductTest {
 		String exceptedMessage = "Invalid product input";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRODUCTNAME WITH NULL
@@ -92,7 +92,7 @@ class ProductTest {
 		String exceptedMessage = "Product name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRODUCT WITH EMPTY STRING
@@ -119,7 +119,7 @@ class ProductTest {
 		String exceptedMessage = "Product name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRODUCT NAME WITH PATTERN
@@ -145,7 +145,7 @@ class ProductTest {
 		String exceptedMessage = "Product name doesn't match the pattern";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRODUCT DESCRIPTION WITH NULL
@@ -170,7 +170,7 @@ class ProductTest {
 		String exceptedMessage = "Description cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRODUCT DESCRIPTION WITH EMPTY
@@ -195,7 +195,7 @@ class ProductTest {
 		String exceptedMessage = "Description cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR UPDATE PRODUCT
@@ -257,7 +257,7 @@ class ProductTest {
 		String exceptedMessage = "Invalid SubCategory_Id";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR SUBCATEGORY EXISTS
@@ -284,7 +284,7 @@ class ProductTest {
 		String exceptedMessage = "sub_category id does not exists";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR PRICE ID WITH 0
@@ -311,7 +311,7 @@ class ProductTest {
 		String exceptedMessage = "Price can't be zero or negative";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR GET ALL PRODUCTS

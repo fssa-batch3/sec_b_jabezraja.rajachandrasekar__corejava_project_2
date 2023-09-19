@@ -1,8 +1,8 @@
 package in.fssa.jauntyrialto;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ class SubCategoryTest {
 		String exceptedMessage = "Invalid SubCategory input";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR SUBCATEGORYNAME WITH NULL
@@ -80,7 +80,7 @@ class SubCategoryTest {
 		String exceptedMessage = "SubCategory name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR SUBCATEGORYNAME WITH EMPTY STRING
@@ -101,7 +101,7 @@ class SubCategoryTest {
 		String exceptedMessage = "SubCategory name cannot be null or empty";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR SUBCATEGORY NAME WITH PATTERN (MATCH)
@@ -122,7 +122,7 @@ class SubCategoryTest {
 		String exceptedMessage = "SubCategory name doesn't match the pattern";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR SUBCATEGORY NAME ALREADY EXISTS
@@ -143,7 +143,7 @@ class SubCategoryTest {
 		String exceptedMessage = "This SubCategory name is already exists";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR UPDATE SUBCATEGORY
@@ -191,7 +191,7 @@ class SubCategoryTest {
 		String exceptedMessage = "Invalid Category id";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	//// TEST FOR CATEGORY EXISTS
@@ -212,7 +212,7 @@ class SubCategoryTest {
 		String exceptedMessage = "Category does not exists";
 		String actualMessage = exception.getMessage();
 
-		assertTrue(exceptedMessage.equals(actualMessage));
+		assertEquals(exceptedMessage, actualMessage);
 	}
 
 	// TEST FOR GET ALL PRODUCTS

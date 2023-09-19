@@ -18,6 +18,7 @@ public class UserService {
 
 		try {
 			UserValidator.validate(newUser);
+			UserValidator.CheckUserExists(newUser.getEmail());
 			UserDAO userDAO = new UserDAO();
 			userDAO.create(newUser);
 		} catch (PersistenceException e) {
@@ -37,7 +38,7 @@ public class UserService {
 			UserDAO userDAO = new UserDAO();
 			userDAO.update(id, updatedUser);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -51,7 +52,7 @@ public class UserService {
 			UserDAO userDAO = new UserDAO();
 			userDAO.delete(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -70,7 +71,7 @@ public class UserService {
 				logger.debug(user);
 			}
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -89,7 +90,7 @@ public class UserService {
 
 			user = userDAO.findById(id);
 		} catch (PersistenceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
