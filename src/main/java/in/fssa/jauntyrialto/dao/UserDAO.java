@@ -27,7 +27,7 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 		ResultSet rs = null;
 
 		try {
-			String query = "SELECT (id, name, email, phone) FROM users";
+			String query = "SELECT id, name, email, phone, password, is_active FROM users";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -38,6 +38,8 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 				user.setName(rs.getString("name"));
 				user.setEmail(rs.getString("email"));
 				user.setPhone(rs.getLong("phone"));
+				user.setPassword(rs.getString("password"));
+				user.setIsActive(rs.getBoolean("is_active"));
 
 				userList.add(user);
 			}
@@ -55,13 +57,113 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 	}
 
 	@Override
-	public void create(UserEntity newUser) throws PersistenceException {
-		Connection connection = null;
+	public UserEntity findById(int id) throws PersistenceException {
+		UserEntity user = null;
+		Connection con = null;
 		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "SELECT id, name, email, phone, password, is_active FROM users WHERE is_active=1 AND id = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				user = new UserEntity();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setEmail(rs.getString("email"));
+				user.setPhone(rs.getLong("phone"));
+				user.setPassword(rs.getString("password"));
+				user.setIsActive(rs.getBoolean("is_active"));
+			}
+
+		} catch (SQLException e) {
+			logger.error(e);
+			logger.debug(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 188", e);
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+
+		return user;
+	}
+
+	public UserEntity findByEmail(String email) throws PersistenceException, ValidationException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		UserEntity user = null;
+
+		try {
+
+			String query = "SELECT id, name, email, phone, password, is_active FROM users WHERE is_active=1 AND email=?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				user = new UserEntity();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setPhone(rs.getLong("phone"));
+				user.setPassword(rs.getString("password"));
+				user.setEmail(rs.getString("email"));
+				user.setIsActive(rs.getBoolean("is_active"));
+
+			} else {
+				throw new ValidationException("User does not exist");
+			}
+
+		} catch (SQLException e) {
+			logger.error(e);
+			throw new PersistenceException(e.getMessage());
+
+		} finally {
+
+			ConnectionUtil.close(con, ps, rs);
+
+		}
+		return user;
+
+	}
+
+	@Override
+	public void create(UserEntity newUser) throws PersistenceException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			String query = "SELECT email FROM users WHERE is_active = 1 AND email = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, newUser.getEmail());
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				throw new PersistenceException("User already exist");
+			}
+
+		} catch (SQLException e) {
+			throw new PersistenceException(e.getMessage());
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+
 		try {
 			String query = "INSERT INTO users (name, email, phone, password, confirm_password) VALUES (?,?,?,?,?)";
-			connection = ConnectionUtil.getConnection();
-			ps = connection.prepareStatement(query);
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
 
 			ps.setString(1, newUser.getName());
 			ps.setString(2, newUser.getEmail());
@@ -79,7 +181,7 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 			throw new PersistenceException("Error while executing SQL query", e);
 
 		} finally {
-			ConnectionUtil.close(connection, ps);
+			ConnectionUtil.close(con, ps, rs);
 		}
 	}
 
@@ -158,43 +260,70 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 
 	}
 
-	@Override
-	public UserEntity findById(int id) throws PersistenceException {
-		UserEntity user = null;
+	/**
+	 * 
+	 * @param id
+	 * @throws PersistenceException
+	 */
+	public void checkIdExists(int id) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
 		try {
-
-			String query = "SELECT (id, name, email, phone) FROM users WHERE is_active=1 AND id = ?";
+			String query = "SELECT 1 FROM users WHERE is_active = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
-			while (rs.next()) {
-
-				user = new UserEntity();
-				user.setId(rs.getInt("id"));
-				user.setName(rs.getString("name"));
-				user.setEmail(rs.getString("email"));
-				user.setPhone(rs.getInt("phone"));
+			if (!rs.next()) {
+				throw new PersistenceException("User not found");
 			}
-
 		} catch (SQLException e) {
-			logger.error(e);
-			logger.debug(e.getMessage());
-			throw new PersistenceException("Error while executing SQL query in line number 188", e);
-
+			throw new PersistenceException(e.getMessage());
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
 		}
+	}
 
+	/**
+	 * 
+	 * @param number
+	 * @param password
+	 * @throws PersistenceException
+	 */
+	public UserEntity checkUserCredentials(String email) throws PersistenceException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		UserEntity user = null;
+		try {
+			String query = "SELECT * FROM users WHERE email = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+
+			ps.setString(1, email);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					user = new UserEntity();
+					user.setEmail(rs.getString("email"));
+					user.setPassword(rs.getString("password"));
+				}
+			}
+
+		} catch (
+
+		SQLException e) {
+			throw new PersistenceException(e.getMessage());
+		} finally {
+			ConnectionUtil.close(con, ps);
+		}
 		return user;
 	}
 
-	public void checkUserExists(String email) throws PersistenceException, ValidationException {
+	public boolean checkUserExists(String email) throws PersistenceException, ValidationException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -223,117 +352,7 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 			ConnectionUtil.close(con, ps, rs);
 
 		}
-
-	}
-
-	public void checkUserExistsForUpdate(String email) throws PersistenceException, ValidationException {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		UserEntity user = null;
-
-		try {
-
-			String query = "SELECT email FROM users WHERE is_active=1 AND email=?";
-			con = ConnectionUtil.getConnection();
-			ps = con.prepareStatement(query);
-			ps.setString(1, email);
-			rs = ps.executeQuery();
-
-			while (!rs.next()) {
-				throw new ValidationException("User does not exist");
-			}
-
-		} catch (SQLException e) {
-			logger.error(e);
-			throw new PersistenceException(e.getMessage());
-
-		} finally {
-
-			ConnectionUtil.close(con, ps, rs);
-
-		}
-
-	}
-
-	public void checkUserExistsWithId(int id) throws PersistenceException, ValidationException {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		UserEntity user = null;
-
-		try {
-
-			String query = "SELECT id, email, name, phone, password, is_active FROM users WHERE is_active=1 AND id=?";
-			con = ConnectionUtil.getConnection();
-			ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				user = new UserEntity();
-				user.setId(rs.getInt("id"));
-				user.setName(rs.getString("name"));
-				user.setEmail(rs.getString("email"));
-				user.setPhone(rs.getLong("phone"));
-				user.setPassword(rs.getString("password"));
-			} else {
-				throw new ValidationException("User does not exist");
-			}
-
-		} catch (SQLException e) {
-			logger.error(e);
-			throw new PersistenceException(e.getMessage());
-
-		} finally {
-
-			ConnectionUtil.close(con, ps, rs);
-
-		}
-
-	}
-
-	public UserEntity checkUserExistsWithEmailForLogin(String email) throws PersistenceException, ValidationException {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		UserEntity user = null;
-
-		try {
-
-			String query = "SELECT (id, email, phone, password) FROM users WHERE is_active=1 AND email=?";
-			con = ConnectionUtil.getConnection();
-			ps = con.prepareStatement(query);
-			ps.setString(1, email);
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				user = new UserEntity();
-				user.setId(rs.getInt("id"));
-				user.setPhone(rs.getLong("number"));
-				user.setPassword(rs.getString("password"));
-				user.setEmail(rs.getString("email"));
-
-			} else {
-				throw new ValidationException("User does not exist");
-			}
-
-		} catch (SQLException e) {
-			logger.error(e);
-			throw new PersistenceException(e.getMessage());
-
-		} finally {
-
-			ConnectionUtil.close(con, ps, rs);
-
-		}
-		return user;
+		return false;
 
 	}
 

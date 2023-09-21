@@ -1,8 +1,11 @@
 package in.fssa.jauntyrialto.model;
 
+import javax.validation.constraints.NotNull;
+
 public abstract class Product implements Comparable<Product> {
 
 	private int id;
+	// @NotNull(message = "name cannot be null")
 	private String name;
 	private String description;
 	private int subCategoryId;

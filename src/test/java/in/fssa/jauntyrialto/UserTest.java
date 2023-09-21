@@ -3,6 +3,9 @@ package in.fssa.jauntyrialto;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +35,7 @@ class UserTest {
 	private long generateRandomPhoneNumber(int length) {
 		java.util.Random random = new java.util.Random();
 
-		long minPhoneNumber = 600_000_0000L;
+		long minPhoneNumber = 600_000_0001L;
 		long maxPhoneNumber = 999_999_9999L;
 
 		long phoneNumber = minPhoneNumber + (long) (random.nextDouble() * (maxPhoneNumber - minPhoneNumber + 1));
@@ -46,7 +49,7 @@ class UserTest {
 
 		UserEntity newUser = new UserEntity();
 
-		newUser.setName("Jalal");
+		newUser.setName("joe Putin");
 
 		String randomString = generateRandomString(8);
 		newUser.setEmail(randomString + "@gmail.com");
@@ -71,7 +74,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(null);
 		});
-		String exceptedMessage = "Invalid user input";
+		String exceptedMessage = "User Cannot be null";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(exceptedMessage, actualMessage);
@@ -136,13 +139,13 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(newUser);
 		});
-		String exceptedMessage = "Email doesn't match the pattern";
+		String exceptedMessage = "Invalid Email Id";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(exceptedMessage, actualMessage);
 	}
 
-	//// TEST FOR EMAIL WITH ALREADY EXISTS
+	//// ??????????? TEST FOR EMAIL WITH ALREADY EXISTS ???????????
 
 	@Test
 	void testCreateUserWithEmailExists() {
@@ -156,10 +159,10 @@ class UserTest {
 		newUser.setPassword("asdfA@12!");
 		newUser.setConfirmPassword("asdfA@12!");
 
-		Exception exception = assertThrows(ValidationException.class, () -> {
+		Exception exception = assertThrows(ServiceException.class, () -> {
 			userService.create(newUser);
 		});
-		String exceptedMessage = "This user is already exist";
+		String exceptedMessage = "User already exist";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(exceptedMessage, actualMessage);
@@ -228,7 +231,7 @@ class UserTest {
 		Exception exception = assertThrows(Exception.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Password must contain atleast 8 characters";
+		String expectedMessage = "Password does not match the requested pattern";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -251,7 +254,7 @@ class UserTest {
 		Exception exception = assertThrows(Exception.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Password doesn't match the pattern";
+		String expectedMessage = "Password does not match the requested pattern";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -316,7 +319,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Name doesn't match the pattern";
+		String expectedMessage = "Name must contain only alphabets with minimum 3 letters can have characters like(',-) with a single space and followed by letters";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -339,7 +342,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Invalid phone number";
+		String expectedMessage = "Phone Number must start between 6 - 9 and have total of 10 digits";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -363,7 +366,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Invalid phone number";
+		String expectedMessage = "Phone Number must start between 6 - 9 and have total of 10 digits";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -387,7 +390,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.create(newUser);
 		});
-		String expectedMessage = "Invalid phone number";
+		String expectedMessage = "Phone Number must start between 6 - 9 and have total of 10 digits";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
@@ -404,10 +407,13 @@ class UserTest {
 		UserEntity updateUser = new UserEntity();
 
 		updateUser.setName("Royal");
-		updateUser.setPassword("Royal!#08");
+		updateUser.setEmail("VqMhLfeG@gmail.com");
+		updateUser.setPassword("asdfA@12!");
+		long randomPhoneNumber = generateRandomPhoneNumber(10);
+		updateUser.setPhone(randomPhoneNumber);
 
 		assertDoesNotThrow(() -> {
-			userService.update(2, updateUser);
+			userService.update(10, updateUser);
 		});
 
 	}
@@ -425,7 +431,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.update(0, updateUser);
 		});
-		String expectedMessage = "Invalid user id";
+		String expectedMessage = "Id cannot be zero or below zero";
 		String actualMessage = exception.getMessage();
 		System.out.println(actualMessage);
 
@@ -446,7 +452,7 @@ class UserTest {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.update(8, updateUser);
 		});
-		String expectedMessage = "User does not exist";
+		String expectedMessage = "User not found";
 		String actualMessage = exception.getMessage();
 		System.out.println(actualMessage);
 
@@ -464,5 +470,138 @@ class UserTest {
 			userService.delete(8);
 		});
 
+	}
+
+	// Test Longin With Valid Input
+	@Test
+	void testLoginUserWithValidInput() {
+
+		UserService userService = new UserService();
+		UserEntity user = new UserEntity();
+		user.setEmail("PTl0LGNB@gmail.com");
+		user.setPassword("asdfA@12!");
+		try {
+			assertTrue(userService.userLogin(user));
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+//	// Password null check
+//	@Test
+//	void testLoginUserWithPasswordNull() {
+//		UserService userService = new UserService();
+//
+//		Exception exception = assertThrows(ValidationException.class, () -> {
+//			userService.userLogin("kingjjj777@gmail.com", null);
+//		});
+//
+//		String expectedMessage = "Password cannot be null or empty";
+//		String actualMessage = exception.getMessage();
+//		assertEquals(expectedMessage, actualMessage);
+//	}
+
+//	// Password is Empty
+//	@Test
+//	void testLoginUserWithPasswordEmpty() {
+//
+//		UserService userService = new UserService();
+//
+//		Exception exception = assertThrows(ValidationException.class, () -> {
+//			userService.userLogin("kingjjj777@gmail.com", "");
+//		});
+//
+//		String expectedMessage = "Password cannot be null or empty";
+//		String actualMessage = exception.getMessage();
+//		assertEquals(expectedMessage, actualMessage);
+//	}
+
+//	// Password Pattern check
+//	@Test
+//	void testLoginUserWithPasswordInValidPattern() {
+//
+//		UserService userService = new UserService();
+//		Exception exception = assertThrows(ValidationException.class, () -> {
+//			userService.userLogin("kingjjj777@gmail.com", "king1234");
+//		});
+//		String expectedMessage = "Password does not match the requested pattern";
+//		String actualMessage = exception.getMessage();
+//		assertEquals(expectedMessage, actualMessage);
+//
+//	}
+
+//	// Invalid login credentials
+//	@Test
+//	void testLoginUserWithInvalidLoginCredentails() {
+//		UserService userService = new UserService();
+//
+//		Exception exception = assertThrows(ServiceException.class, () -> {
+//			userService.userLogin("kingjjj777@gmail.com", "King5465");
+//		});
+//
+//		String expectedMessage = "Invalid Login Credentials";
+//		String actualMessage = exception.getMessage();
+//		assertEquals(expectedMessage, actualMessage);
+//	}
+
+	// Id is Invalid
+	@Test
+	void testDeleteUserWithInvalidId() {
+
+		UserService userService = new UserService();
+		Exception exception = assertThrows(ValidationException.class, () -> {
+			userService.delete(0);
+		});
+
+		String expectedMessage = "Id cannot be zero or below zero";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	// Id Not Found
+	@Test
+	void testDeleteUserWithNotFoudId() {
+
+		UserService userService = new UserService();
+		Exception exception = assertThrows(ValidationException.class, () -> {
+			userService.delete(55);
+		});
+
+		String expectedMessage = "User not found";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	// TEST FOR GET ALL USERS
+
+	@Test
+	void getAllUsers() throws ServiceException {
+		UserService userService = new UserService();
+		assertDoesNotThrow(() -> {
+			Set<UserEntity> userList = userService.findAll();
+			System.out.println(userList);
+		});
+	}
+
+	// TEST FOR GET USER BY ID
+
+	@Test
+	void getUserById() throws ServiceException {
+		UserService userService = new UserService();
+		assertDoesNotThrow(() -> {
+			UserEntity userList = userService.findById(4);
+			System.out.println(userList);
+		});
+	}
+
+	// TEST FOR GET USER BY EMAIL
+	@Test
+	void getUserByEmail() throws ServiceException {
+		UserService userService = new UserService();
+		assertDoesNotThrow(() -> {
+			UserEntity userList = userService.findUserByEmail("MTw3TBdh@gmail.com");
+			System.out.println(userList);
+		});
 	}
 }

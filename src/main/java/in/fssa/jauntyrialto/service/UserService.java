@@ -8,6 +8,8 @@ import in.fssa.jauntyrialto.exception.PersistenceException;
 import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.util.Logger;
+import in.fssa.jauntyrialto.util.Password;
+import in.fssa.jauntyrialto.util.StringUtil;
 import in.fssa.jauntyrialto.validator.UserValidator;
 
 public class UserService {
@@ -17,9 +19,16 @@ public class UserService {
 	public void create(UserEntity newUser) throws ValidationException, ServiceException {
 
 		try {
-			UserValidator.validate(newUser);
-			UserValidator.CheckUserExists(newUser.getEmail());
+
 			UserDAO userDAO = new UserDAO();
+			UserValidator.validate(newUser);
+
+			String newPassword = Password.hashPassword(newUser.getPassword());
+			newUser.setPassword(newPassword);
+
+			String confirmPassword = Password.hashPassword(newUser.getConfirmPassword());
+			newUser.setConfirmPassword(confirmPassword);
+
 			userDAO.create(newUser);
 		} catch (PersistenceException e) {
 			logger.error(e);
@@ -31,9 +40,8 @@ public class UserService {
 	public void update(int id, UserEntity updatedUser) throws ServiceException, ValidationException {
 
 		try {
-			UserValidator.CheckUserExistsWithId(id);
-			UserValidator.validateName(updatedUser.getName());
-			UserValidator.validatePassword(updatedUser.getPassword());
+			UserValidator.isIdValid(id);
+			UserValidator.validate(updatedUser);
 
 			UserDAO userDAO = new UserDAO();
 			userDAO.update(id, updatedUser);
@@ -47,7 +55,7 @@ public class UserService {
 	public void delete(int id) throws ServiceException, ValidationException {
 
 		try {
-			UserValidator.CheckUserExistsWithId(id);
+			UserValidator.isIdValid(id);
 
 			UserDAO userDAO = new UserDAO();
 			userDAO.delete(id);
@@ -58,7 +66,7 @@ public class UserService {
 
 	}
 
-	public static Set<UserEntity> findAll() throws ServiceException {
+	public Set<UserEntity> findAll() throws ServiceException {
 
 		Set<UserEntity> userList = null;
 
@@ -79,22 +87,57 @@ public class UserService {
 
 	}
 
-	public static UserEntity findById(int id) throws ServiceException, ValidationException {
+	public UserEntity findById(int id) throws ServiceException, ValidationException {
 
 		UserEntity user = null;
 
 		try {
 
-			UserValidator.CheckUserExistsWithId(id);
+			UserValidator.isIdValid(id);
 			UserDAO userDAO = new UserDAO();
-
 			user = userDAO.findById(id);
+
 		} catch (PersistenceException e) {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
 
 		return user;
+
+	}
+
+	public UserEntity findUserByEmail(String email) throws ValidationException, ServiceException {
+
+		UserEntity user = null;
+		try {
+			StringUtil.rejectIfInvalidEmail(email, "Email");
+			UserDAO userDAO = new UserDAO();
+			user = userDAO.findByEmail(email);
+
+		} catch (PersistenceException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		return user;
+	}
+
+	public boolean userLogin(UserEntity user) throws ServiceException {
+
+		try {
+
+			UserValidator userValidator = new UserValidator();
+			userValidator.validateUserLogin(user);
+
+			UserDAO userDAO = new UserDAO();
+
+			UserEntity fromDB = userDAO.checkUserCredentials(user.getEmail());
+
+			if (!Password.checkPassword(user.getPassword(), fromDB.getPassword())) {
+				throw new PersistenceException("Invalid Credentials");
+			}
+			return true;
+		} catch (PersistenceException | ValidationException e) {
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
