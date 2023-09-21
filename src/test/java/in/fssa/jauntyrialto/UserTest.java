@@ -488,62 +488,70 @@ class UserTest {
 
 	}
 
-//	// Password null check
-//	@Test
-//	void testLoginUserWithPasswordNull() {
-//		UserService userService = new UserService();
-//
-//		Exception exception = assertThrows(ValidationException.class, () -> {
-//			userService.userLogin("kingjjj777@gmail.com", null);
-//		});
-//
-//		String expectedMessage = "Password cannot be null or empty";
-//		String actualMessage = exception.getMessage();
-//		assertEquals(expectedMessage, actualMessage);
-//	}
+	// Password null check
+	@Test
+	void testLoginUserWithPasswordNull() {
+		UserService userService = new UserService();
+		UserEntity user = new UserEntity();
+		user.setEmail("PTl0LGNB@gmail.com");
+		user.setPassword(null);
+		Exception exception = assertThrows(ServiceException.class, () -> {
+			userService.userLogin(user);
+		});
 
-//	// Password is Empty
-//	@Test
-//	void testLoginUserWithPasswordEmpty() {
-//
-//		UserService userService = new UserService();
-//
-//		Exception exception = assertThrows(ValidationException.class, () -> {
-//			userService.userLogin("kingjjj777@gmail.com", "");
-//		});
-//
-//		String expectedMessage = "Password cannot be null or empty";
-//		String actualMessage = exception.getMessage();
-//		assertEquals(expectedMessage, actualMessage);
-//	}
+		String expectedMessage = "Password cannot be null or empty";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
 
-//	// Password Pattern check
-//	@Test
-//	void testLoginUserWithPasswordInValidPattern() {
-//
-//		UserService userService = new UserService();
-//		Exception exception = assertThrows(ValidationException.class, () -> {
-//			userService.userLogin("kingjjj777@gmail.com", "king1234");
-//		});
-//		String expectedMessage = "Password does not match the requested pattern";
-//		String actualMessage = exception.getMessage();
-//		assertEquals(expectedMessage, actualMessage);
-//
-//	}
+	// Password is Empty
+	@Test
+	void testLoginUserWithPasswordEmpty() {
+		UserService userService = new UserService();
+		UserEntity user = new UserEntity();
+		user.setEmail("PTl0LGNB@gmail.com");
+		user.setPassword("");
+		Exception exception = assertThrows(ServiceException.class, () -> {
+			userService.userLogin(user);
+		});
 
-//	// Invalid login credentials
-//	@Test
-//	void testLoginUserWithInvalidLoginCredentails() {
-//		UserService userService = new UserService();
-//
-//		Exception exception = assertThrows(ServiceException.class, () -> {
-//			userService.userLogin("kingjjj777@gmail.com", "King5465");
-//		});
-//
-//		String expectedMessage = "Invalid Login Credentials";
-//		String actualMessage = exception.getMessage();
-//		assertEquals(expectedMessage, actualMessage);
-//	}
+		String expectedMessage = "Password cannot be null or empty";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	// Password Pattern check
+	@Test
+	void testLoginUserWithPasswordInValidPattern() {
+		UserService userService = new UserService();
+		UserEntity user = new UserEntity();
+		user.setEmail("PTl0LGNB@gmail.com");
+		user.setPassword("asdf;lkj3");
+		Exception exception = assertThrows(ServiceException.class, () -> {
+			userService.userLogin(user);
+		});
+
+		String expectedMessage = "Password does not match the requested pattern";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+
+	}
+
+	// Invalid login credentials
+	@Test
+	void testLoginUserWithInvalidLoginCredentails() {
+		UserService userService = new UserService();
+		UserEntity user = new UserEntity();
+		user.setEmail("PTl0LGNB@gmail.com");
+		user.setPassword("Asdf;lkj3");
+		Exception exception = assertThrows(ServiceException.class, () -> {
+			userService.userLogin(user);
+		});
+
+		String expectedMessage = "Invalid Credentials";
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
 
 	// Id is Invalid
 	@Test
