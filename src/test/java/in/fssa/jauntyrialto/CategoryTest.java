@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 import in.fssa.jauntyrialto.entity.CategoryEntity;
+import in.fssa.jauntyrialto.exception.ServiceException;
 import in.fssa.jauntyrialto.exception.ValidationException;
 import in.fssa.jauntyrialto.service.CategoryService;
 
@@ -161,5 +164,17 @@ class CategoryTest {
 		CategoryService categoryService = new CategoryService();
 		categoryService.delete(4);
 
+	}
+
+	// TEST FOR GET ALL CATEGORIES
+
+	@Test
+	void getAllCategories() throws ServiceException {
+		CategoryService service = new CategoryService();
+		assertDoesNotThrow(() -> {
+			@SuppressWarnings("static-access")
+			Set<CategoryEntity> List = service.findAll();
+			System.out.println(List);
+		});
 	}
 }

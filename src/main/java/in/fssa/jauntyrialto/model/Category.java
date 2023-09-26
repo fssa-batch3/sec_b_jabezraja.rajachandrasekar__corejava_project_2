@@ -5,6 +5,15 @@ public abstract class Category implements Comparable<Category> {
 	private int id;
 	private String name;
 	private boolean isActive;
+	private String Img;
+
+	public String getImg() {
+		return Img;
+	}
+
+	public void setImg(String img) {
+		Img = img;
+	}
 
 	public int getId() {
 		return id;
@@ -32,7 +41,7 @@ public abstract class Category implements Comparable<Category> {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", is_active=" + isActive + "]";
+		return "Category [id=" + id + ", name=" + name + ", isActive=" + isActive + ", Img=" + Img + "]";
 	}
 
 	@Override

@@ -4,12 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
+
 import in.fssa.jauntyrialto.entity.CategoryEntity;
+import in.fssa.jauntyrialto.entity.ProductEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
+import in.fssa.jauntyrialto.interfaces.Category;
+import in.fssa.jauntyrialto.interfaces.ProductInterfaces;
 import in.fssa.jauntyrialto.util.ConnectionUtil;
 import in.fssa.jauntyrialto.util.Logger;
 
-public class CategoryDAO {
+public class CategoryDAO implements Category<CategoryEntity> {
 	Logger logger = new Logger();
 
 	/**
@@ -180,6 +186,43 @@ public class CategoryDAO {
 			ConnectionUtil.close(con, ps, rs);
 
 		}
+	}
+
+	@Override
+	public Set<CategoryEntity> findAll() throws PersistenceException {
+		Set<CategoryEntity> categoryList = new HashSet<>();
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			String query = "SELECT * FROM categories WHERE is_active=1";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				CategoryEntity category = new CategoryEntity();
+				category.setId(rs.getInt("id"));
+				category.setName(rs.getString("name"));
+				category.setImg(rs.getString("image"));
+
+				categoryList.add(category);
+
+			}
+
+		} catch (SQLException e) {
+			logger.error(e);
+			logger.debug(e.getMessage());
+			throw new PersistenceException("Error while executing SQL query in line number 56", e);
+
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+		return categoryList;
 	}
 
 }

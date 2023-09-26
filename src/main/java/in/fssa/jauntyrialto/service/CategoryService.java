@@ -1,5 +1,7 @@
 package in.fssa.jauntyrialto.service;
 
+import java.util.Set;
+
 import in.fssa.jauntyrialto.dao.CategoryDAO;
 import in.fssa.jauntyrialto.entity.CategoryEntity;
 import in.fssa.jauntyrialto.exception.PersistenceException;
@@ -9,7 +11,7 @@ import in.fssa.jauntyrialto.util.Logger;
 import in.fssa.jauntyrialto.validator.CategoryValidator;
 
 public class CategoryService {
-	Logger logger = new Logger();
+	static Logger logger = new Logger();
 
 	/**
 	 * 
@@ -71,6 +73,25 @@ public class CategoryService {
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}
+
+	}
+
+	public static Set<CategoryEntity> findAll() throws ServiceException {
+
+		Set<CategoryEntity> categoryList = null;
+		try {
+			CategoryDAO categoryDAO = new CategoryDAO();
+			categoryList = categoryDAO.findAll();
+		} catch (PersistenceException e) {
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+
+		for (CategoryEntity prod : categoryList) {
+			logger.debug(prod);
+		}
+
+		return categoryList;
 
 	}
 }
