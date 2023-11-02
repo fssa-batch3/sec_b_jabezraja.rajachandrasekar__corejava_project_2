@@ -27,7 +27,7 @@ public class ConnectionUtil {
 
 		// LOCAL DATABASE
 
-		url = System.getenv("LOCAL_DATABASE_HOSTNAME");
+		url = "jdbc:mysql://localhost:3306/jabezraja_rajachandrasekar__corejava_project";
 		userName = System.getenv("LOCAL_DATABASE_USERNAME");
 		passWord = System.getenv("LOCAL_DATABASE_PASSWORD");
 

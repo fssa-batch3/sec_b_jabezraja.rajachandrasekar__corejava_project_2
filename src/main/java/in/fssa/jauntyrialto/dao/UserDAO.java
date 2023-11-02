@@ -355,5 +355,32 @@ public class UserDAO implements UserInterfaces<UserEntity> {
 		return false;
 
 	}
+	
+	public int findIdByEmail(String email) throws PersistenceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    int userId = -1; // Initialize to -1, indicating that the user with the given email is not found.
+
+	    try {
+	        String query = "SELECT id FROM users WHERE is_active = 1 AND email = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setString(1, email);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            userId = rs.getInt("id");
+	        }
+	    } catch (SQLException e) {
+	        logger.error(e);
+	        throw new PersistenceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+
+	    return userId;
+	}
+
 
 }
